@@ -1,0 +1,31 @@
+<mxfile host="65bd71144e">
+    <diagram id="8pCDd_CsqAjOGNQUIqIT" name="Page-1">
+        <mxGraphModel dx="834" dy="413" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="5" value="&lt;font style=&quot;color: rgb(128, 255, 0); font-size: 20px;&quot;&gt;User&lt;/font&gt;&lt;br&gt;&lt;br&gt;&lt;b style=&quot;color: rgb(255, 179, 102);&quot;&gt;validations:&lt;br&gt;&lt;/b&gt;&lt;font color=&quot;#ffb366&quot;&gt;name exit&amp;nbsp;&lt;/font&gt;&lt;br&gt;&lt;font color=&quot;#ffb366&quot;&gt;password at least 5&lt;/font&gt;&lt;br&gt;&lt;br&gt;&lt;b style=&quot;&quot;&gt;&lt;font color=&quot;#ffffff&quot;&gt;CRUD&lt;br&gt;&lt;/font&gt;&lt;/b&gt;POST User&lt;br&gt;GET user&lt;br&gt;PATCH user&lt;br&gt;DELETE user&lt;br&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="20" y="30" width="170" height="180" as="geometry"/>
+                </mxCell>
+                <mxCell id="6" value="&lt;font color=&quot;#80ff00&quot;&gt;Tweet&lt;/font&gt;&lt;br&gt;&lt;font style=&quot;&quot;&gt;&lt;b style=&quot;&quot;&gt;&lt;font style=&quot;font-size: 12px;&quot;&gt;validations&lt;/font&gt;&lt;br&gt;&lt;/b&gt;&lt;/font&gt;&lt;font style=&quot;&quot;&gt;&lt;font style=&quot;font-size: 12px;&quot;&gt;Tweet exist&lt;/font&gt;&lt;br&gt;&lt;font style=&quot;font-size: 12px;&quot;&gt;Tweet up to 100&lt;br&gt;&lt;br&gt;&lt;font color=&quot;#ffffff&quot;&gt;&lt;b&gt;CRUD&lt;/b&gt;&lt;br&gt;user POST tweet&lt;br&gt;user GET one tweet&lt;br&gt;user GET all tweets&lt;br&gt;user PATCH tweet&lt;br&gt;user DELETE tweet&lt;/font&gt;&lt;br&gt;&lt;/font&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=20;fontColor=#FFB366;" vertex="1" parent="1">
+                    <mxGeometry x="290" y="30" width="140" height="300" as="geometry"/>
+                </mxCell>
+                <mxCell id="7" value="&lt;font color=&quot;#80ff00&quot;&gt;&lt;span style=&quot;font-size: 20px;&quot;&gt;Category&lt;/span&gt;&lt;/font&gt;&lt;br&gt;&lt;br&gt;&lt;font style=&quot;font-size: 12px;&quot;&gt;&lt;b style=&quot;color: rgb(255, 179, 102);&quot;&gt;validations&lt;br&gt;&lt;/b&gt;&lt;font color=&quot;#ffb366&quot;&gt;category exist&amp;nbsp;&lt;/font&gt;&lt;br&gt;&lt;font color=&quot;#ffb366&quot;&gt;category up to 30&lt;/font&gt;&lt;br&gt;&lt;br&gt;&lt;b style=&quot;&quot;&gt;CRUD&lt;/b&gt;&lt;br&gt;user POST category with tweet&lt;br&gt;&lt;br&gt;user GET all categories with their associated tweets&amp;nbsp;&lt;br&gt;&lt;br&gt;user GET one category with its associated tweet&lt;br&gt;&lt;br&gt;user PATCH category&lt;br&gt;&lt;br&gt;user DELETE category&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontColor=#FFFFFF;" vertex="1" parent="1">
+                    <mxGeometry x="530" y="30" width="260" height="320" as="geometry"/>
+                </mxCell>
+                <mxCell id="8" value="" style="endArrow=none;html=1;fontSize=12;fontColor=#FFFFFF;entryX=-0.031;entryY=0.215;entryDx=0;entryDy=0;entryPerimeter=0;exitX=1;exitY=0.333;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="5" target="6">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="380" y="200" as="sourcePoint"/>
+                        <mxPoint x="280" y="130" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="9" value="" style="endArrow=none;html=1;fontSize=12;fontColor=#FFFFFF;entryX=0;entryY=0.25;entryDx=0;entryDy=0;exitX=1;exitY=0.25;exitDx=0;exitDy=0;" edge="1" parent="1" source="6" target="7">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="380" y="200" as="sourcePoint"/>
+                        <mxPoint x="510" y="180" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
