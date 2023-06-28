@@ -49,7 +49,7 @@ class TweetsController < ApplicationController
             tweet = Tweet.find_by(id: params[:id].to_i)
             tweet.update!(tweet_params)
             render json: tweet, status: :accepted
-        end
+    end
 
     # User deletes tweet
     def destroy

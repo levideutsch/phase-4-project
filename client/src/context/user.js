@@ -254,7 +254,74 @@ function UserProvider({ children }) {
           });
       }
 
-    // Add new category  
+      // function addProfilePhoto(user) {
+      //   fetch(`/users/${user.id}`, {
+      //     method: 'PATCH',
+      //     headers: { 'content-type': 'application/json' },
+      //     body: JSON.stringify({
+      //       profile_photo: user.profile_photo
+      //     })
+      //   })
+      //     .then(res => res.json())
+      //     .then(updatedUser => {
+      //       setUser(prevData => {
+      //         const updatedData = prevData.map(item => {
+      //           if (item.id === updatedUser.id) {
+      //             // Update the tweet with the edited content
+      //             return {
+      //               ...item,
+      //               profile_photo: updatedUser.profile_photo
+      //             };
+      //           }
+      //           return item;
+      //         });
+      
+      //         return updatedData;
+      //       });
+      //     })
+      //     .catch(error => {
+      //       console.error(error);
+      //       // Handle the error appropriately, e.g., show an error message to the user
+      //     });
+      // }
+
+      function addProfilePhoto(user) {
+        fetch(`/users/${user.id}`, {
+          method: 'PATCH',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({
+            profile_photo: user.profile_photo
+          })
+        })
+          .then(res => res.json())
+          .then(updatedUser => {
+            setUser(prevData => {
+              if (Array.isArray(prevData)) {
+                const updatedData = prevData.map(item => {
+                  if (item.id === updatedUser.id) {
+                    // Update the user with the edited profile photo
+                    return {
+                      ...item,
+                      profile_photo: updatedUser.profile_photo
+                    };
+                  }
+                  return item;
+                });
+      
+                return updatedData;
+              }
+              
+              return prevData;
+            });
+          })
+          .catch(error => {
+            console.error(error);
+            // Handle the error appropriately, e.g., show an error message to the user
+          });
+        }
+
+
+      // Add new category  
     function addCategory(category) {
         fetch("/categories", {
           method: 'POST',
@@ -317,6 +384,7 @@ function UserProvider({ children }) {
             setError,
             addCategory,
             tweetsAndCategories,
+            addProfilePhoto
             }}
             >
             { children }

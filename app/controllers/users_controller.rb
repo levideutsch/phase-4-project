@@ -1,5 +1,8 @@
 class UsersController < ApplicationController
 
+
+    # rescue_from ActiveRecord::RecordNotFound, with: :render_not_found_response
+    # rescue_from ActiveRecord::RecordInvalid, with: :render_unprocessable_entity_response
     skip_before_action :authorize, only: [:create, :show]
 
     #User signs up
@@ -19,17 +22,23 @@ class UsersController < ApplicationController
         end
     end
 
-    def create_profile_photo
-        user = User.find(params[:id])
-    
-        if user.update(profile_photo: params[:profile_photo])
-          # Profile photo successfully updated
-          render json: { message: 'Profile photo uploaded successfully' }
-        else
-          # Failed to update profile photo
-          render json: { error: 'Failed to upload profile photo' }, status: :unprocessable_entity
-        end
-      end
+    # def update_profile_photo
+    #     user = current_user
+    #     if user.update(user_profile_picture_params)
+    #       render json: { message: 'Profile photo updated successfully' }, status: :ok
+    #     else
+    #       render json: { error: 'Failed to update profile photo' }, status: :unprocessable_entity
+    #     end
+    #   end
+
+      def update
+        # tweet = Tweet.find_by(params[:id])
+        user = User.find_by(id: params[:id].to_i)
+        user.update!(user_params_photo)
+        render json: user, status: :accepted
+end
+
+  
 
     #Displays one specific user
 #     def show
@@ -94,4 +103,17 @@ def show
         params.permit(:username, :password, :password_confirmation)
     end
 
+    def user_params_photo
+        # params.permit(:profile_photo)
+        params.permit(:profile_photo)
+    end
+
+    # def render_not_found_response
+    #     render json: { error: "User not found" }, status: :not_found
+    #   end
+
+    #      # POST error
+    # def render_unprocessable_entity_response(invalid)
+    #     render json: { errors: invalid.record.errors.full_messages }, status: :unprocessable_entity
+    # end
 end

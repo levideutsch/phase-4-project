@@ -1,34 +1,60 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { UserContext } from "./context/user";
 import { Link } from "react-router-dom";
 
 function UsersProfilePage() {
-    const { user, loggedIn } = useContext(UserContext)
+    const { user, loggedIn, addProfilePhoto } = useContext(UserContext)
 
 
+    const [photoURL, setPhotoURL] = useState("");
+    // console.log(photoURL)
 
-    const addProfilePhoto = (e) => {
-        e.preventDefault()
+    // const handleSubmit = async (e) => {
+    //     e.preventDefault();
+    
+    //     try {
+    //       const response = await fetch('/profile-photo', {
+    //         method: 'POST',
+    //         body: JSON.stringify({ profile_photo: photoURL })
+    //       });
+    
+    //       if (response.ok) {
+    //         console.log('Profile photo added successfully');
+    //         // Perform any additional actions on success
+    //       } else {
+    //         console.error('Error adding profile photo:', response.statusText);
+    //         // Handle error cases
+    //       }
+    //     } catch (error) {
+    //       console.error('Error adding profile photo:', error);
+    //       // Handle error cases
+    //     }
+    //   };
 
-        // fetch("/me")
-        
-    }
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+    
+        addProfilePhoto({id: user.id, profile_photo: photoURL})
+      };
+    
+    console.log(photoURL)
 
 
-console.log(user)
+// console.log(user)
     if (loggedIn) {
     return (
         <div>
        <div className="button">{user.username}'s Profile page</div> 
-       <form className="button" onSubmit={null}>
+       <form className="button" onSubmit={handleSubmit}>
        <input
-       placeholder="Add profile photo"
+       placeholder="'Enter Image Url'"
        type="text"
        id="image"
        name="image"
-       value={null}
-       onChange={null}/>
-       <input type="submit"/>
+       value={photoURL}
+       onChange={(e) => setPhotoURL(e.target.value)}
+       />
+       <input type="submit" value="submit"/>
        </form>
        </div>
     )

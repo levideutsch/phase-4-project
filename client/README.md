@@ -1,4 +1,4 @@
-# Getting Started with Create React App
+<!-- # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
@@ -67,4 +67,39 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 
 ### `npm run build` fails to minify
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify) -->
+# My Phase-4 Project - !Twitter
+
+## Intro:
+I'm sure you've heard of the popular website called Twitter.com. Well, this is! Twitter.com, but kind of similar.
+
+## Starting it up:
+**Backend**
+
+Clone the repository and open it in your terminal, then Run:
+`$ bundle install` or `$ bundle i`
+
+Once your dependencies are installed, run:
+`$ rails db:migrate`
+
+Then run:
+`$ rails server` or `$ rails s`
+
+This will start up the Backend (Rails) server.
+
+To quit the server, press CTRL + C.
+
+**Frontend**
+
+In a new terminal run: 
+`$ npm install --prefix client`
+
+Then run: 
+`$ npm start --prefix client`
+
+This will start up the Frontend server.
+You will then be taken to the browser to start using the application.
+
+To quit the server, in the same terminal press CTRL + C.
+
+## How it works

@@ -18,7 +18,7 @@ Rails.application.routes.draw do
   # Reconizes signed in user
   get "/me", to: "users#show"
 
-  post "/profile-photo", to: "users#profile_photo"
+  patch "users/:id", to: "users#update"
 
 
   #🟢 Tweet Controller

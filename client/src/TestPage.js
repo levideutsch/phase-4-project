@@ -67,7 +67,9 @@ function TestPage() {
 <hr/>
 
 {/* <p>Category: {tweet.category.category}</p> */}
+<Link to={`categories/${tweet.category.id}`}>
 <a href="#" role="button" class="secondary">Category: {tweet.category.category}</a>
+</Link>
 {/* <p>User: {tweet.user.username}</p> */}
 
 </article>

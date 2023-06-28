@@ -49,7 +49,7 @@ function MyTweets() {
 
       <br/>
             {formFlag ? <TweetForm closeTweetForm={closeTweetForm}/> : <button onClick={() => setFormFlag(true)} className="button">Add Tweet</button>}
-             {formFlag ?null : error && <div>{error}</div>}
+             {formFlag ?null : error && <div className="button">{error}</div>}
     </div>
     )
     } else {

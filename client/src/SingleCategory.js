@@ -32,11 +32,11 @@ function SingleCategory() {
     // })
 
     // console.log(singleCategory.category)
-    
+   
     return (
         <div>
           {singleCategory ? (
-            <>
+            <div>
               <h2 className="button">Category: {singleCategory.category}</h2>
               <br/>
               <h3 className="button">Tweets:</h3>
@@ -50,7 +50,7 @@ function SingleCategory() {
                   </article>
                 ))}
               </ul>
-            </>
+            </div>
           ) : (
             <p>Loading...</p>
           )}
