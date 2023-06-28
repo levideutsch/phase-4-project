@@ -398,9 +398,14 @@ On this page you can,
 
 1. View all your tweets
 2. Create a new tweet with it's category
-3. Click on any tweet to view it individually 
-4. Once that individual tweet is clicked on you will be able to edit or delete it
+3. If you don't want to use any of the existing categories, you will have an option to create a new one
+4. Click on any tweet to view it individually 
+5. Once that individual tweet is clicked on you will be able to edit or delete it
 ![image](my_tweets.png)
+![image](new_tweet.png)
+![image](tweet_details.png)
+
+
 
 
 
