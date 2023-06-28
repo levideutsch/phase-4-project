@@ -389,7 +389,7 @@ Instantly, you will be brought to the Login page, where you can either login if 
 ![image](login_page.png)
 ![image](signup_page.png)
 
-Once you're logged in you will be brought to the home page where you will see everyone's tweets:
+Once you're logged in you will be brought to the home page where you will see everyone's tweets, The user associated with that tweet, and that tweets category:
 ![image](home_page.png)
 
 If you click on "My Tweets" you will be brought to a page that displays all of your tweets.
@@ -405,8 +405,15 @@ On this page you can,
 ![image](new_tweet.png)
 ![image](tweet_details.png)
 
+If and click on "Categories" you will be brought to a page that displays all categories.
 
+On this page you can,
 
+1. View all categories
+2. Create a new category
+3. Click on an individual category which will display all Tweets and users associated with that category.
+![image](categories.png)
+![image](one_category.png)
 
 
 
