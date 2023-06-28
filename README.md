@@ -387,6 +387,8 @@ To quit the server, in the same terminal press CTRL + C.
 Instantly, you will be brought to the Login page, where you can either login if you already have an account, or you can click the Signup button, which will bring you to the Signup page where you can create a new account.
 
 ![image](login_page.png)
+![image](signup_page.png)
+
 
 
 
