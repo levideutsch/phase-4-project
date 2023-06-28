@@ -389,6 +389,9 @@ Instantly, you will be brought to the Login page, where you can either login if 
 ![image](login_page.png)
 ![image](signup_page.png)
 
+Once you're logged in you will be brought to the home page where you will see everyone's tweets:
+![image](home_page.png)
+
 
 
 
