@@ -392,6 +392,16 @@ Instantly, you will be brought to the Login page, where you can either login if 
 Once you're logged in you will be brought to the home page where you will see everyone's tweets:
 ![image](home_page.png)
 
+If you click on "My Tweets" you will be brought to a page that displays all of your tweets.
+
+On this page you can,
+
+1. View all your tweets
+2. Create a new tweet with it's category
+3. Click on any tweet to view it individually 
+4. Once that individual tweet is clicked on you will be able to edit or delete it
+![image](my_tweets.png)
+
 
 
 
