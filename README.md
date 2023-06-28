@@ -383,4 +383,10 @@ You will then be taken to the browser to start using the application.
 
 To quit the server, in the same terminal press CTRL + C.
 
-## How it works
+## How it works:
+Instantly, you will be brought to the Login page, where you can either login if you already have an account, or you can click the Signup button, which will bring you to the Signup page where you can create a new account.
+
+![image](login_page.png)
+
+
+
