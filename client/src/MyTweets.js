@@ -3,9 +3,10 @@ import React, { useState, useContext } from "react";
 import { UserContext } from "./context/user";
 import TweetForm from "./TweetForm";
 import TweetLinks from "./TweetLinks";
+import { Link } from "react-router-dom";
 
 function MyTweets() {
-    const { loggedIn, user, error, tweetsAndCategories } = useContext(UserContext)
+    const { user, error } = useContext(UserContext)
     const [formFlag, setFormFlag] = useState(false)
     // const params = useParams()
 
@@ -13,49 +14,52 @@ function MyTweets() {
         setFormFlag(false)
     }
 
-    console.log(user)
+    console.log(user.profile_photo)
 
-    if (loggedIn) {
-        // let filterUsers = userTweets.filter(t => t.user.username === user.username)
-        // let myFilteredTweets = user.tweets.filter(t => t.user.username === user.username)
-        // console.log(filterUsers)
-        // const filteredTweets = user.tweets.filter((tweet) => tweet.user.username === user.username);
-
-        // const filteredTweets = user.tweets.filter(
-        //     (tweet) => tweet.user.username == user.username
-        //   );
-
-        const filteredTweets = tweetsAndCategories.filter(
-            (tweet) => tweet.user.username === user.username
-          );
-
-            const a = filteredTweets.map(tweet => <TweetLinks key={tweet.id} tweet={tweet} body={tweet.body} category={tweet.category.category} user={tweet.user.username}/>)
-    return (
-        // <div>
-        //     <h3>{user.username}'s Tweets:</h3>
-        //         {a}
-        //     <br/>
-        //     {formFlag ? <TweetForm closeTweetForm={closeTweetForm}/> : <button onClick={() => setFormFlag(true)}>Add Tweet</button>}
-        //     {formFlag ?null : error && <div>{error}</div>}
-        // </div>
-        <div>
-        <h3 className="button">Your Tweets</h3>
-      {/* {filteredTweets.map((tweet) => (
-        <div key={tweet.id}>
-          <p>Tweet: {tweet.body} Category: {tweet.category.category} User: {tweet.user.username}</p>
-        </div>
-      ))} */}
-      {a}
-
-      <br/>
-            {formFlag ? <TweetForm closeTweetForm={closeTweetForm}/> : <button onClick={() => setFormFlag(true)} className="button">Add Tweet</button>}
-             {formFlag ?null : error && <div className="button">{error}</div>}
-    </div>
+    const Tweet = ({body, id}) => (
+      <article className="my-stuff">
+        <Link to={`/tweets/${id}`}>
+          {body}
+          <br/>
+        </Link>
+        {/* <p>User: {tweet.user.username}</p> */}
+      </article>
     )
-    } else {
-        return (
-        <h3>Not Authorized - Please Signup or Login</h3>
-        )
-    }
+
+    const Category = ({category, id}) => (
+      <article className="my-stuff">
+        <Link to={`/categories/${id}`}>
+          {category}
+        </Link>
+        {/* <p>User: {tweet.user.username}</p> */}
+      </article>
+    )
+
+    return (
+      <div className="grid">
+        <div>
+          <h2 className="my-stuff">My Tweets</h2>
+          {user.tweets.map(t => <Tweet key={t.id} {...t} />)}
+
+          <br/>
+          {formFlag ? <TweetForm closeTweetForm={closeTweetForm}/> : <button onClick={() => setFormFlag(true)} className="button">Add Tweet</button>}
+          {formFlag ?null : error && <div className="button">{error}</div>}
+        </div>
+        <img className="my-stuff" src={user.profile_photo}></img>
+        <div>
+          <h2 className="my-stuff">My Categories</h2>
+          {user.categories.map(c => <Category key={c.id} {...c} />)}
+        </div>
+      </div>
+    )
 }
 export default MyTweets
+
+
+/* 
+
+soomething.map(a => <Child key={a.key}> a={a})
+
+
+funciton Child({a})
+*/

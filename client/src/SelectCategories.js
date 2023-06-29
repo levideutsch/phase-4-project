@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 function SelectCategories({ formData, setFormData, handleInputChange }) {
     const { categories } = useContext(UserContext)
     // const navigate = useNavigate()
-    const categoriesList = categories.map(c => <option key={c.id}>{c.category}</option>)
+    const categoriesList = categories.map(c => <option key={c.id} value={c.category}>{c.category}</option>)
 
 
     // const handleCategoryChange = (e) => {

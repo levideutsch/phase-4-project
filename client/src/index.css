@@ -117,3 +117,19 @@ a.secondary {
 .links-container > * {
   margin-right: 10px;
 }
+
+.my-stuff {
+  /* text-align: center;
+  margin: auto;
+  width: 30%;
+  white-space: nowrap; */
+  white-space: normal;
+  word-break: break-word;
+  text-align: center;
+}
+
+.profile-photo {
+  width: 50px; /* Adjust the width as desired */
+  height: 50px; /* Adjust the height as desired */
+  border-radius: 50%; /* Makes the image round */
+}

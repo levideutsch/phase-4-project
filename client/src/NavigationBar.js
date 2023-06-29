@@ -124,6 +124,7 @@ function NavigationBar() {
     <li><strong onClick={backHome}>!Twitter</strong></li>
     <Link to="/my-profile">
     <li><a href="/" class="secondary">Hello {user.username}</a></li>
+    <img className='profile-photo' src={user.profile_photo}></img>
     </Link>
   </ul>
   <ul>
@@ -132,7 +133,7 @@ function NavigationBar() {
       </NavLink> 
       <br/>
       <NavLink to="/tweets">
-      <li><a>My Tweets</a></li>
+      <li><a>My Stuff</a></li>
       </NavLink>
       <br/>
       <NavLink to="/categories">

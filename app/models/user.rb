@@ -1,12 +1,12 @@
 class User < ApplicationRecord
     has_many :tweets, dependent: :destroy
-    has_many :categories, through: :tweets  
+    has_many :categories, -> { distinct }, through: :tweets
 
     #To protect the password
     has_secure_password
 
     validates :username, presence: true, uniqueness: true
-    validates :password, presence: true, length: { minimum: 5 }
-    validates :password_confirmation, presence: true
+    validates :password, presence: { on: create }, length: { minimum: 5 }, :if => :password_digest_changed?
+    validates :password_confirmation, presence: { on: create }
 
 end

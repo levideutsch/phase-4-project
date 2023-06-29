@@ -16,62 +16,41 @@ function UserProvider({ children }) {
     // User state
     const [user, setUser] = useState({})
 
-    const [tweetsAndCategories, setTweetsAndCategories] = useState([])
-    // All categories
-    const [categories, setCategories] = useState(["No Tweets"])
+    const [tweets, setTweets] = useState([])
+    const [categories, setCategories] = useState([])
 
     // Logged in state
     const [loggedIn, setLoggedIn] = useState(false)
 
-    // Current users tweets
-    const [userTweets, setUserTweets] = useState([])
+    async function loadUser() {
+      const response = await fetch('/me')
 
+      if (!response.ok) {
+        setLoggedIn(false);
+        return;
+      }
+
+      const user = await response.json()
+
+      if (user.error) {
+        setLoggedIn(false)
+        return;
+      }
+      
+      setTweets(user.tweets) // all tweets are returned with user
+
+      // filter user by tweets
+      user.tweets = user.tweets.filter(t => t.user.id === user.id)
+      setUser(user)
+
+      setLoggedIn(true)
+    }
+
+    async function getCategories() { setCategories(await fetch("/categories").then(res => res.json())) }
 
     // Fetch logged in user
-    useEffect(() => {
-        fetch('/me')
-        .then(res => res.json())
-        .then(data => {
-            setUser(data)
-            setTweetsAndCategories(data.tweets)
-            if (data.error) {
-                setLoggedIn(false)
-            } else {
-                setLoggedIn(true)
-            //    setUserTweets(data)
-            // fetchUsersTweets()
-            }
-        })
-    }, [])
-
-
-
-
-//    const blah =  userTweets.map((tweet) => (
-//         <div key={tweet.id}>
-//           <p>Body: {tweet.body}</p>
-//           <p>Category: {tweet.category.category}</p>
-//           <p>User: {tweet.user.username}</p>
-//         </div>
-//       ))
-
-    // Fetch all categories
-    useEffect(() => {
-        fetch("/categories")
-        .then(res => res.json())
-        .then(data => setCategories(data))
-    }, [])
-
-  
-    // Fetch current users Tweets
-    // function fetchUsersTweets() {
-    //     fetch("/tweets")
-    //     .then(res => res.json())
-    //     .then(data => {
-    //         // console.log(data)
-    //         setUserTweets(data)
-    //     })
-    // }
+    useEffect(loadUser, [])
+    useEffect(getCategories, [])
 
 
     // Current user adds tweet
@@ -81,10 +60,6 @@ function UserProvider({ children }) {
             headers: {'content-type': 'application/json'},
             body: JSON.stringify(tweet)
         })
-        // .then(res => res.json())
-        // .then(data => {
-        //     setUserTweets([data, ...userTweets])
-        // })
         .then(res => {
             if (!res.ok) {
               throw new Error('Failed to create tweet');
@@ -92,20 +67,14 @@ function UserProvider({ children }) {
             return res.json();
           })
           .then(data => {
-            setTweetsAndCategories(prevData => [data, ...prevData]);
-
-            // setUserTweets([data, ...userTweets]);
-            // setUser([data, user.tweets])
-            // setUser(prevUser => ({
-            //     ...prevUser,
-            //     tweets: [data, ...prevUser.tweets]
-            //   }));
-            // setTweetsAndCategories(prevTweets => [data, ...prevTweets]);
-            //   setTweetsAndCategories(prevTweets => ({
-            //     ...prevTweets,
-            //     tweets: [data, ...prevTweets]
-            //   }))
-            
+            setTweets(prevData => [data, ...prevData])
+            setUser(user => ({
+              ...user,
+              tweets: [data, ...user.tweets],
+              categories: user.categories.find(c => c.category == data.category.category)
+                ? user.categories 
+                : [ ...user.categories, data.category ]
+            }))
             setError(null); // Reset the error state
           })
           .catch(error => {
@@ -124,21 +93,6 @@ function UserProvider({ children }) {
     //         }
     //     }
     // }
-  
-    // Current user deletes tweets
-    // function deleteTweet(id) {
-    //     fetch(`/tweets/${id}`, {
-    //         method: 'DELETE'
-    //     })
-    //     // .then(setUserTweets(
-    //     //     userTweets.filter(tweet => tweet.id !==id)
-    //     // ))
-    //     setUser(prevUser => ({
-    //         ...prevUser,
-    //         tweets: prevUser.tweets.filter(tweet => tweet.id !== id)
-    //     }));
-        
-    // }
 
     function deleteTweet(id) {
         fetch(`/tweets/${id}`, {
@@ -153,7 +107,9 @@ function UserProvider({ children }) {
             //   ...prevUser,
             //   tweets: prevUser.tweets.filter(tweet => tweet.id !== id)
             // }));
-            setTweetsAndCategories(prevData => prevData.filter(tweet => tweet.id !== id));
+            const filter = tweet => tweet.id !== id;
+            setTweets(prevData => prevData.filter(filter));
+            setUser(user => ({...user, tweets: user.tweets.filter(filter)}));
           })
           .catch(error => {
             console.error(error);
@@ -233,20 +189,16 @@ function UserProvider({ children }) {
         })
           .then(res => res.json())
           .then(updatedTweet => {
-            setTweetsAndCategories(prevData => {
-              const updatedData = prevData.map(item => {
-                if (item.id === updatedTweet.id) {
-                  // Update the tweet with the edited content
-                  return {
-                    ...item,
-                    body: updatedTweet.body
-                  };
-                }
-                return item;
-              });
-      
-              return updatedData;
-            });
+
+            const updateTweet = (tweet) => {
+              if (tweet.id !== updatedTweet.id)
+                return tweet;
+
+              return {...tweet, body: updatedTweet.body}
+            }
+
+            setTweets(tweets => tweets.map(updateTweet))
+            setUser(user => ({...user, tweets: user.tweets.map(updateTweet)}))
           })
           .catch(error => {
             console.error(error);
@@ -346,17 +298,18 @@ function UserProvider({ children }) {
       }
 
     // Users logs in
-    const login = (user) => {
-        setUser(user)
-        // fetchUsersTweets()
+    const login = async () => {
         setLoggedIn(true)
+        await getCategories()
+        return loadUser()
     }
 
     // Users logs out
     const logout = () => {
-        setUser({})
-        setUserTweets([])
-        setLoggedIn(false)
+      setLoggedIn(false)
+      setUser({})
+      setTweets([])
+      setCategories([])
     }
 
     // User signs up
@@ -375,15 +328,14 @@ function UserProvider({ children }) {
             logout, 
             signup, 
             loggedIn, 
-            userTweets, 
             addTweet, 
             deleteTweet, 
             editTweet, 
-            categories,
             error,
             setError,
             addCategory,
-            tweetsAndCategories,
+            tweets,
+            categories,
             addProfilePhoto
             }}
             >

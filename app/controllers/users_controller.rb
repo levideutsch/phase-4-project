@@ -35,6 +35,7 @@ class UsersController < ApplicationController
         # tweet = Tweet.find_by(params[:id])
         user = User.find_by(id: params[:id].to_i)
         user.update!(user_params_photo)
+
         render json: user, status: :accepted
 end
 
@@ -61,6 +62,7 @@ def show
         profile_photo: user.profile_photo,
         password: nil,
         tweets: all_tweets.as_json(only: [:id, :body], include: { category: { only: [:id, :category] }, user: { only: [:id, :username] } }),
+        categories: user.categories
         #categories: Category.all.as_json(only: [:id, :category])
       }
       render json: response, status: :ok

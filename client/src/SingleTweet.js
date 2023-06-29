@@ -7,21 +7,14 @@ import { useNavigate } from 'react-router-dom'
 
 function SingleTweet() {
 
-    const [singleTweet, setSingleTweet] = useState([])
+    const [singleTweet, setSingleTweet] = useState(null)
     const [showForm, setShowForm] = useState(false)
     const [tweetBody, setTweetBody] = useState("")
     const [isLoadingDelete, setIsLoadingDelete] = useState(false);
     const [isLoadingEdit, setIsLoadingEdit] = useState(false);
-    const { deleteTweet, editTweet, setError, error, loggedIn } = useContext(UserContext)
+    const { deleteTweet, editTweet, loggedIn } = useContext(UserContext)
     const { id } = useParams()
     const navigate = useNavigate()
-
-  
-    // const handleDelete = () => {
-    //     deleteTweet(singleTweet.id)
-    //     navigate("/tweets")
-    //     handleClick()
-    // }
 
     const handleForm = () => {
         setShowForm((showForm) => !showForm);
@@ -43,8 +36,8 @@ function SingleTweet() {
       setTimeout(() => {
         
       setIsLoadingEdit(false);
-      editTweet({  id: singleTweet.id, body: tweetBody });
-      setSingleTweet({ id: singleTweet.id, body: tweetBody})
+      editTweet({ ...singleTweet, body: tweetBody });
+      setSingleTweet({ ...singleTweet, body: tweetBody})
       handleForm(false)
 
       }, 750);
@@ -103,7 +96,7 @@ function SingleTweet() {
               {/* <p>{singleTweet.body}</p> */}
               <hgroup className="button">
               <h2>Tweet Details</h2>
-              <h3></h3>
+              <h3>{singleTweet.category.category}</h3>
               </hgroup>
               <article className="button">
                 {singleTweet.body}

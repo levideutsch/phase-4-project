@@ -392,16 +392,17 @@ Instantly, you will be brought to the Login page, where you can either login if 
 Once you're logged in you will be brought to the home page where you will see everyone's tweets, The user associated with that tweet, and that tweets category:
 ![image](home_page.png)
 
-If you click on "My Tweets" you will be brought to a page that displays all of your tweets.
+If you click on "My Stuff" you will be brought to a page that displays all of your tweets, along with every category you're associated with.
 
 On this page you can,
 
 1. View all your tweets
-2. Create a new tweet with it's category
-3. If you don't want to use any of the existing categories, you will have an option to create a new one
-4. Click on any tweet to view it individually 
-5. Once that individual tweet is clicked on you will be able to edit or delete it
-![image](my_tweets.png)
+2. View every category you've used
+3. Create a new tweet with it's category
+4. If you don't want to use any of the existing categories, you will have an option to create a new one
+5. Click on any tweet to view it individually 
+6. Once that individual tweet is clicked on you will be able to edit or delete it
+![image](my_stuff.png)
 ![image](new_tweet.png)
 ![image](tweet_details.png)
 
@@ -412,8 +413,15 @@ On this page you can,
 1. View all categories
 2. Create a new category
 3. Click on an individual category which will display all Tweets and users associated with that category.
-![image](categories.png)
+![image](all_categories.png)
 ![image](one_category.png)
 
+## Hidden features:
+1. If you click on the category box on each tweet, you will be brought to that specific categories page.
+
+2. If you click on the "Hello username" text on the top left corner of the page you will be brought to your profile page that will allow you go add an image to your profile!
+
+## UI:
+https://picocss.com/
 
 

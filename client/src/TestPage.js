@@ -3,93 +3,29 @@ import { UserContext } from "./context/user";
 import { Link } from "react-router-dom";
 
 function TestPage() {
-    const { user, loggedIn, tweetsAndCategories } = useContext(UserContext)
-    // console.log(tweetsAndCategories)
+    const { tweets } = useContext(UserContext)
+    console.log(tweets)
 
-    // const tweets = user.map(u => <li key={u.tweets.id}>{user.tweets.body}</li>)
-
-    // const b = user.tweets[0].body
-    // console.log(b)
-
-
-    //    const blah =  user.map((tweet) => (
-    //     <div key={tweet.id}>
-    //       <p>Body: {tweet.body}</p>
-    //       <p>Category: {tweet.category.category}</p>
-    //       <p>User: {tweet.user.username}</p>
-    //     </div>
-    //   ))
-
-    if (loggedIn) {
-
-    // function displayTweets() {
-    // if (user.tweets && user.tweets.length > 0) {
-    //     return user.tweets.map(tweet => <li key={tweet.id}>Tweet: {tweet.body}  Category: {tweet.category.category} User: {tweet.user.username}</li>)
-    //   } else {
-    //     console.log("No tweets available.");
-    //   }
-    // }
-
-    // function displayTweets() {
-    //     if (user && user.tweets && user.tweets.length > 0) {
-    //       return user.tweets.map(tweet => (
-    //         <li key={tweet.id}>
-    //           Tweet: {tweet.body} 
-    //           Category: {tweet.category ? tweet.category.category : "N/A"}
-    //           User: {tweet.user ? tweet.user.username : "N/A"}
-    //         </li>
-    //       ));
-    //     } else {
-    //       console.log("No tweets available.");
-    //     }
-    //   }
-
-    
+    const Tweet = ({ user, category, body }) => (
+      <article className="button">
+        <a href="#" role="button" class="secondary">{user.username}</a>
+        <br/>
+        {body}
+        <hr/>
+        {/* <p>Category: {category.category}</p> */}
+        <Link to={`categories/${category.id}`}>
+          <a href="#" role="button" class="secondary">Category: {category.category}</a>
+        </Link>
+        {/* <p>User: {tweet.user.username}</p> */}
+      </article>
+    )
 
     return (
-        <div>
-            
-    {/* {displayTweets()} */}
-    {tweetsAndCategories?.map(tweet => (
-  // <li key={tweet.id}>
-  //   Tweet: {tweet.body}
-  //   Category: {tweet.category.category}
-  //   User: {tweet.user.username}
-  // </li>
-<ul key={tweet.id}>
-{/* <a href="#" role="button" class="secondary">User: {tweet.user.username}</a> */}
-
-<article className="button">
-<a href="#" role="button" class="secondary">{tweet.user.username}</a>
-<br/>
-{/* <header>Tweet</header> */}
-{tweet.body}
-<hr/>
-
-{/* <p>Category: {tweet.category.category}</p> */}
-<Link to={`categories/${tweet.category.id}`}>
-<a href="#" role="button" class="secondary">Category: {tweet.category.category}</a>
-</Link>
-{/* <p>User: {tweet.user.username}</p> */}
-
-</article>
-</ul>
-))}
-{/* <meta name="twitter:card" content="summary"> yes</meta> */}
-  
+      <div className="grid">
+        <ul>
+          {tweets.map(tweet => <Tweet key={tweet.id} {...tweet} />)}
+        </ul>
       </div>
     )
-} else {
-    return (
-        <div className="error-container">
-        <h3>Not Authorized - Please </h3>
-        <div className="links-container">
-          <Link to="/signup"><h3>Signup</h3></Link>
-          <h3>Or</h3>
-          <Link to="/login"><h3>Login</h3></Link>
-        </div>
-       </div>        
-       )
-    }
 }
 export default TestPage

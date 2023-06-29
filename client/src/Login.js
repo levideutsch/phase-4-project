@@ -103,16 +103,13 @@ function Login() {
         })
           .then(async (response) => {
             if (response.ok) {
-              const user = await response.json();
-                login(user);
-                navigate('/');
+              await login()
+              navigate('/');
             } else {
               const error = await response.json();
-                setUsername('');
-                setPassword('');
-                const errorList = error.errors.map((e) => <li>{e}</li>);
-                setErrors(errorList);
-                setIsLoading(false);
+              const errorList = error.errors.map((e) => <li>{e}</li>);
+              setErrors(errorList);
+              setIsLoading(false);
             }
           })
           .catch((error) => {
