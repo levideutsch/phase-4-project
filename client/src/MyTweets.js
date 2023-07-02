@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 // import { useParams } from 'react-router-dom'
 import { UserContext } from "./context/user";
 import TweetForm from "./TweetForm";
-import TweetLinks from "./TweetLinks";
+// import TweetLinks from "./TweetLinks";
 import { Link } from "react-router-dom";
 
 function MyTweets() {
@@ -14,7 +14,8 @@ function MyTweets() {
         setFormFlag(false)
     }
 
-    console.log(user.profile_photo)
+    // console.log(user.profile_photo)
+    console.log(error)
 
     const Tweet = ({body, id}) => (
       <article className="my-stuff">
@@ -43,9 +44,9 @@ function MyTweets() {
 
           <br/>
           {formFlag ? <TweetForm closeTweetForm={closeTweetForm}/> : <button onClick={() => setFormFlag(true)} className="button">Add Tweet</button>}
-          {formFlag ?null : error && <div className="button">{error}</div>}
+          {formFlag ? null : error && <div className="button">{error}</div>}
         </div>
-        <img className="my-stuff" src={user.profile_photo}></img>
+        <img className="my-stuff" src={user.profile_photo} alt="Your profile"></img>
         <div>
           <h2 className="my-stuff">My Categories</h2>
           {user.categories.map(c => <Category key={c.id} {...c} />)}

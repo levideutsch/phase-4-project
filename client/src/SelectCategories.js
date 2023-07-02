@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { UserContext } from "./context/user";
-import { useNavigate } from 'react-router-dom'
+// import { useNavigate } from 'react-router-dom'
 
 function SelectCategories({ formData, setFormData, handleInputChange }) {
     const { categories } = useContext(UserContext)

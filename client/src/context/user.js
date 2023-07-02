@@ -12,15 +12,19 @@ function UserProvider({ children }) {
 
     //Creation of new tweet error state
     const [error, setError] = useState([]);
-    console.log(error)
+    // console.log(error)
+
     // User state
     const [user, setUser] = useState({})
 
+  
     const [tweets, setTweets] = useState([])
     const [categories, setCategories] = useState([])
 
+
     // Logged in state
     const [loggedIn, setLoggedIn] = useState(false)
+
 
     async function loadUser() {
       const response = await fetch('/me')
@@ -82,6 +86,39 @@ function UserProvider({ children }) {
             setError(error.message);
             // Handle the error appropriately, e.g., show an error message to the user
           });
+    }
+
+    function addTweetNew(tweet) {
+      fetch("/tweets", {
+        method: 'POST',
+        headers: {'content-type': 'application/json'},
+        body: JSON.stringify(tweet)
+      })
+      .then(res => {
+        if (!res.ok) {
+          throw new Error('Failed to create tweet');
+        } 
+        return res.json()
+      })
+      .then(data => {
+
+        // const newTweet = {
+        //   id: data.id,
+        //   body: data.body,
+        //   user_id: data.user_id,
+        //   category_id: data.category_id
+        // };
+        // setCategories(prevData => [newTweet, ...prevData])
+        setCategories(category => ({
+          ...category, 
+          tweets: [data, ...category.tweets],
+          users: category.users.find(u => u.cat)
+        }))
+      })
+      .catch( error => {
+        console.log(error)
+        setError(error.message)
+      })
     }
 
     // function addTweetAndCategory(e) {
@@ -197,6 +234,7 @@ function UserProvider({ children }) {
               return {...tweet, body: updatedTweet.body}
             }
 
+            // change to set category
             setTweets(tweets => tweets.map(updateTweet))
             setUser(user => ({...user, tweets: user.tweets.map(updateTweet)}))
           })
@@ -329,6 +367,7 @@ function UserProvider({ children }) {
             signup, 
             loggedIn, 
             addTweet, 
+            addTweetNew,
             deleteTweet, 
             editTweet, 
             error,

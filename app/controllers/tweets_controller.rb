@@ -3,146 +3,99 @@ class TweetsController < ApplicationController
     rescue_from ActiveRecord::RecordNotFound, with: :render_not_found_response
     rescue_from ActiveRecord::RecordInvalid, with: :render_unprocessable_entity_response
 
-    # User creates new tweet and 
-    # def create 
-    #     user = current_user
-    #     category = Category.find_by(category: params[:category])
-    #     if category  
-    #         render json: {error: "Select a category"}, status: :unprocessable_entity 
-    #     else 
-    #         tweet = user.tweets.create!(
-    #             body: params[:body],
-    #             category_id: category.id
-    #         )
-    #         render json: tweet, status: :created
-    #     end
-    # end
-
-    # User creates new tweet and 
-    # def create 
-    #     user = current_user
-    #     category = Category.find_by(category: params[:category])
-    #     if category  
-    #         render json: {error: "Select a category"}, status: :unprocessable_entity 
-    #     else 
-    #         tweet = user.tweets.create!(
-    #             body: params[:body],
-    #             category_id: category.id
-    #         )
-    #         render json: tweet, status: :created
-    #     end
-    # end
-
-    # User updates existing tweet 
-    # def update 
-    #     category = Category.find_by(category: params[:category])
-    #     tweet = Tweet.find_by(params[:id])
-    #     tweet.update!(
-    #         body: params[:body],
-    #         category_id: category.id
-    #     )
-    #     render json: recipe, status: :accepted 
-    # end
-
+    # User Edits tweet
     def update
-            # tweet = Tweet.find_by(params[:id])
-            tweet = Tweet.find_by(id: params[:id].to_i)
-            tweet.update!(tweet_params)
-            render json: tweet, status: :accepted
+        # tweet = Tweet.find_by(params[:id])
+        
+        # chnage to current_user.tweets/find_by
+        tweet = current_user.tweets.find_by(id: params[:id].to_i).update!(tweet_params)
+        # Find the tweet by its ID
+        # tweet = Tweet.find_by(id: params[:id].to_i)
+
+        # Then update that tweet with the given params
+        # tweet.update!(tweet_params)
+
+        # Return Json status accepted
+        render json: tweet, status: :accepted
     end
 
     # User deletes tweet
     def destroy
-        tweet = Tweet.find_by(id: params[:id])
-        tweet.destroy
+
+    # chnage to current_user.tweets/find_by
+        current_user.tweets.find_by(id: params[:id]).destroy
+
+        # Find the tweet by its ID
+        # tweet = Tweet.find_by(id: params[:id])
+
+        # Then destroy that tweet
+        # tweet.destroy
+
+        # Then respond with an empty object
         render json: {}
     end
 
-    # Displays all users tweets 
-    # def show
-    #     user = current_user
-    #     tweets = user.tweets.all
-    #     render json: tweets, status: :ok
-    # end
 
-    # Display all tweets from all users 
-    # def index 
-    #     tweets = Tweet.all.order("created_at DESC")
-    #     render json: tweet, status: :ok
-    # end
+    # User creates new tweet
+    def create
 
-    # Display all logged in users tweets
-    # def index
-    #     tweets = current_user.tweets.order("created_at DESC")
-    #     render json: tweets 
-    # end
+        # Make sure current_user is true
+        user = current_user
 
-    # Logged in user creates a tweet
-#     def create 
-#         tweet = current_user.tweets.create(tweet_params)
-#         if tweet.valid?
-#             render json: tweet
-#         else
-#             render json: { errors: tweet.errors.full_messages }, status: :unprocessable_entity
-#     end
-# end
+        # Then find the (tweets) category by its ID
+        category =  Category.find_by(category: params[:category])
 
-def create
-    user = current_user
-    category =  Category.find_by(category: params[:category])
-    if category == nil 
-        render json: {error: "Select a category"}, status: :unprocessable_entity
-    else 
-        tweet = user.tweets.create!(
-            body: params[:body],
-            category_id: category.id
-        )
-        render json: tweet, status: :created
+        # If the category is nil
+        if category == nil 
+            # Respond with "Hey bro, you gotta select a category in order to actually tweet"
+            render json: {error: "Select a category"}, status: :unprocessable_entity
+        else 
+
+            # But if the category is valid, the user is allowed to create a new tweet with a tweet body, and the category they selected
+            tweet = user.tweets.create!(
+                body: params[:body],
+                category_id: category.id
+            )
+
+            # Then return all of that as Json
+            render json: tweet, status: :created
+        end
     end
-end
 
-    
-  
+    # Display all tweets
+    def index
 
-# def create
-#     tweet = current_user.tweets.build(tweet_params)
-#     category_ids = params[:category_ids] || []  # Assuming the category_ids are sent as an array in the request
-  
-#     if category_ids.empty?
-#       # Handle the case when no category IDs are provided
-#       tweet.category = []
-#     else
-#       # Assign categories to the tweet
-#       tweet.category = Category.where(id: category_ids)
-#     end
-  
-#     if tweet.save
-#       render json: tweet
-#     else
-#       render json: { errors: tweet.errors.full_messages }, status: :unprocessable_entity
-#     end
-#   end
+        # Checks if current user is logged in
+        user = User.find_by(id: session[:user_id])
 
+        # If true
+        if user    
+        # Display all tweets & include that tweets user and category
+        tweets = Tweet.includes(:user, :category).all.order("created_at DESC")
 
-def index
-    user = User.find_by(id: session[:user_id])
-    if user    
-    tweets = Tweet.includes(:user, :category).all.order("created_at DESC")
-      render json: tweets, include: [:user, :category]
-    else
-      render json: { error: "Not authorized" }, status: :unauthorized
+        # Then return as Json
+        render json: tweets, include: [:user, :category]
+        else
+        
+        # If current_user is false, return this    
+        render json: { error: "Not authorized" }, status: :unauthorized
+        end
     end
-  end
-
 
 
     # View one specific tweet from logged in user 
     def show
+
+        # If current_user is true
         user = User.find_by(id: session[:user_id])
         if user
+        
+        # Find that specific tweet by its ID    
         tweet = Tweet.find_by(id: [params[:id]])
+        # Then render it
             render json: tweet
         else 
+        # But if current_user is false, return this
             render json: { error: "Not Found"}, status: :unauthorized # Use unauthorized because we only want to look at current users data
         end
     end 

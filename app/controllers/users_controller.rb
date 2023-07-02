@@ -1,6 +1,5 @@
 class UsersController < ApplicationController
 
-
     # rescue_from ActiveRecord::RecordNotFound, with: :render_not_found_response
     # rescue_from ActiveRecord::RecordInvalid, with: :render_unprocessable_entity_response
     skip_before_action :authorize, only: [:create, :show]
@@ -22,81 +21,48 @@ class UsersController < ApplicationController
         end
     end
 
-    # def update_profile_photo
-    #     user = current_user
-    #     if user.update(user_profile_picture_params)
-    #       render json: { message: 'Profile photo updated successfully' }, status: :ok
-    #     else
-    #       render json: { error: 'Failed to update profile photo' }, status: :unprocessable_entity
-    #     end
-    #   end
+  
 
+      # To update user with new profile photo
       def update
-        # tweet = Tweet.find_by(params[:id])
+        # Find the user by its ID
         user = User.find_by(id: params[:id].to_i)
+        # Then update that users profile photo
         user.update!(user_params_photo)
-
+        # Then send it back as Json with the status of accepted
         render json: user, status: :accepted
-end
-
-  
-
-    #Displays one specific user
-#     def show
-#         user = current_user
-#         if user
-#             #all_tweets = Tweet.all.includes(:category).order("created_at DESC")
-#             render json: user #{ user: user, tweets: all_tweets } ,status: :ok
-#         else 
-#             render json: { error: "Not authorized" }, status: :unauthorized
-#     end
-# end
-
-def show
-    user = current_user
-    if user
-      all_tweets = Tweet.includes(:category).order("created_at DESC")
-      response = {
-        id: user.id,
-        username: user.username,
-        profile_photo: user.profile_photo,
-        password: nil,
-        tweets: all_tweets.as_json(only: [:id, :body], include: { category: { only: [:id, :category] }, user: { only: [:id, :username] } }),
-        categories: user.categories
-        #categories: Category.all.as_json(only: [:id, :category])
-      }
-      render json: response, status: :ok
-    else
-      render json: { error: "Not authorized" }, status: :unauthorized
-    end
-
-  end
-
- 
-    # def show
-    #     users = User.all
-    #     render json: users, each_serializer: UserSerializer, status: :ok
-    #   end
-
- 
-  
-#   def show 
-#     user = current_user
-#     render json: user,  serializer: UserTweetsSerializer, status: :ok
-#   end
-
-# def show 
-#     user = current_user
-#     render json: user, serializer: UserTweetsSerializer, status: :ok
-#   end
-  
+      end
 
 
-    #Displays all users    
-    # def index
-    #     users = User.all
-    #     render json: users, status: :ok
-    # end
+      # 
+      def show
+          user = current_user
+          # Check if the current user is signed in
+          if user
+
+            # If true, grab all tweets along with their categories
+            all_tweets = Tweet.includes(:category).order("created_at DESC")
+            
+            # Then the actual response should be the current_user id, username, profile_photo, password
+            response = {
+              id: user.id,
+              username: user.username,
+              profile_photo: user.profile_photo,
+              password: nil,
+              # Then a list of everyone's tweets along with those tweets categories
+              tweets: all_tweets.as_json(only: [:id, :body], include: { category: { only: [:id, :category] }, user: { only: [:id, :username] } }),
+
+              # Then a list of the current users categories
+              categories: user.categories
+              #categories: Category.all.as_json(only: [:id, :category])
+            }
+            # Then return the "response" as Json
+            render json: response, status: :ok
+          else
+            # But if the current_user is false, return this
+            render json: { error: "Not authorized" }, status: :unauthorized
+          end
+        end
 
 
     private 

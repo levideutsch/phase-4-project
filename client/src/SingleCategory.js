@@ -1,14 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
+import { UserContext } from "./context/user";
 
 function SingleCategory() {
 
     const [isLoading, setIsLoading] = useState(false)
     const [singleCategory, setSingleCategory] = useState(null)
-    const { id, loggedIn } = useParams()
+    const { categories } = useContext(UserContext)
+    const { id } = useParams()
 
     // console.log(singleCategory)
 
+    //Change!!!!!
     useEffect(async () => {
         setIsLoading(true)
         const data = await fetch(`/categories/${id}`).then(res => res.json())

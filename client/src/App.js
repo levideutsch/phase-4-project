@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 // import { Route, Routes } from 'react-router-dom'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from "./Home";
-import { UserContext, UserProvider } from "./context/user";
+import { UserContext } from "./context/user";
 import Signup from "./Signup";
 import Login from "./Login";
 import NavigationBar from "./NavigationBar";
@@ -14,10 +14,11 @@ import SingleCategory from "./SingleCategory";
 // import TestPage from "./TestPage";
 import "@picocss/pico/css/pico.min.css";
 import NotFound from "./NotFound";
-import Unauthorized from "./Unauthorized"
+// import Unauthorized from "./Unauthorized"
 import UsersProfilePage from "./UsersProfilePage";
+import NewHomePage from "./NewHomePage";
 
-function App(props) {
+function App() {
 
   const { loggedIn } = useContext(UserContext)
 
@@ -43,7 +44,7 @@ function App(props) {
         <Route exact path="/categories" element={<Categories/>}/>
         <Route exact path="/categories/:id" element={<SingleCategory/>}/>
         <Route exact path="/my-profile" element={<UsersProfilePage/>}/>
-        {/* <Route exact path="/tweets" element={<TestPage/>}/> */}
+        <Route exact path="/new-home" element={<NewHomePage/>}/>
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>

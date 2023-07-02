@@ -8,7 +8,7 @@ function Categories() {
 
 // const [isOpen, setIsOpen] = useState(false) 
 const [createCategoryFlag, setCreateCategoryFlag] = useState(false)  
-const { categories, loggedIn } = useContext(UserContext)
+const { categories, loggedIn, error } = useContext(UserContext)
 // const categoriesList = categories.map(c => <li key={c.id}>{c.category}</li>)
 const categoriesLinks = categories?.map(c => <CategoryLinks key={c.id} category={c}/>)
 
@@ -44,6 +44,7 @@ if (loggedIn) {
       {/* {isOpen ? <div>Is Open</div> : <div>Is Closed</div>} */}
       <hr/>
       {createCategoryFlag ? <CategoryForm closeForm={setCreateCategoryFlag}/> : <button onClick={handleNewCategoryOpen} className="button">Add Category</button>}
+      {createCategoryFlag ? null : error && <div className="button">{error}</div>}
     </div>
     )
   } else {

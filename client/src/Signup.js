@@ -68,7 +68,7 @@ function Signup() {
             /> <br/>
             <input type='submit'/>
             </form>
-            <ul>
+            <ul className='button'>
                 {errorsList}
             </ul>
             <NavLink to="/login">

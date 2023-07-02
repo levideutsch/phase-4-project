@@ -20,12 +20,12 @@ function SingleTweet() {
         setShowForm((showForm) => !showForm);
     }
 
-    function handleEditSubmit(e) {
-        e.preventDefault();
-        editTweet({  id: singleTweet.id, body: tweetBody });
-        setSingleTweet({ id: singleTweet.id, body: tweetBody})
-        handleForm(false)
-    }
+    // function handleEditSubmit(e) {
+    //     e.preventDefault();
+    //     editTweet({  id: singleTweet.id, body: tweetBody });
+    //     setSingleTweet({ id: singleTweet.id, body: tweetBody})
+    //     handleForm(false)
+    // }
 
 
     const handleEditClick = (e) => {
@@ -69,7 +69,7 @@ function SingleTweet() {
             // setError("An error occurred while fetching the tweet.");
             console.error(error);
           });
-      }, []);
+      }, [id]);
 
 
         const handleDeleteClick = () => {

@@ -7,8 +7,8 @@ import { useNavigate } from 'react-router-dom'
 
 function TweetForm({ closeTweetForm }) {
  
-    const { addTweet } = useContext(UserContext)
-    const [categoryFormFlag, setCategoryFormFlag] = useState(false)
+    const { addTweet, addTweetNew } = useContext(UserContext)
+    // const [categoryFormFlag, setCategoryFormFlag] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const navigate = useNavigate()
     const [formData, setFormData] = useState({
@@ -26,6 +26,7 @@ function TweetForm({ closeTweetForm }) {
         e.preventDefault()
 
         addTweet(formData)
+        // addTweetNew(formData)
         closeTweetForm()
     }
 
@@ -47,6 +48,7 @@ function TweetForm({ closeTweetForm }) {
           
           setIsLoading(false);
           addTweet(formData)
+          // addTweetNew(formData)
           closeTweetForm()
 
         }, 750);

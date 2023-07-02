@@ -35,9 +35,10 @@ function UsersProfilePage() {
         e.preventDefault();
     
         addProfilePhoto({id: user.id, profile_photo: photoURL})
+        setPhotoURL("")
       };
     
-    console.log(photoURL)
+    // console.log(photoURL)
 
 
 // console.log(user)

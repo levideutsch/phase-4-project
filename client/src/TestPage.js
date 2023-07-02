@@ -4,7 +4,8 @@ import { Link } from "react-router-dom";
 
 function TestPage() {
     const { tweets } = useContext(UserContext)
-    console.log(tweets)
+    // console.log(tweets)
+    // Get all tweets from categories, and not from user
 
     const Tweet = ({ user, category, body }) => (
       <article className="button">
