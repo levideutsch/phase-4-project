@@ -28,7 +28,7 @@ Rails.application.routes.draw do
 
   
   # Categories
-  resources :categories
+  # resources :categories
   resources :categories, only: [:create, :index]
 
 

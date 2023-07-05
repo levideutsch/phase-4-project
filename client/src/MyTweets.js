@@ -6,6 +6,7 @@ import TweetForm from "./TweetForm";
 import { Link } from "react-router-dom";
 
 function MyTweets() {
+
     const { user, error } = useContext(UserContext)
     const [formFlag, setFormFlag] = useState(false)
     // const params = useParams()
@@ -14,9 +15,8 @@ function MyTweets() {
         setFormFlag(false)
     }
 
-    // console.log(user.profile_photo)
-    console.log(error)
-
+   
+    // Users tweets with link to single tweet when clicked on
     const Tweet = ({body, id}) => (
       <article className="my-stuff">
         <Link to={`/tweets/${id}`}>
@@ -27,6 +27,7 @@ function MyTweets() {
       </article>
     )
 
+    // Users used categories with link to single category when clicked on
     const Category = ({category, id}) => (
       <article className="my-stuff">
         <Link to={`/categories/${id}`}>
@@ -40,7 +41,7 @@ function MyTweets() {
       <div className="grid">
         <div>
           <h2 className="my-stuff">My Tweets</h2>
-          {user.tweets.map(t => <Tweet key={t.id} {...t} />)}
+          {user.tweets.map(t => <Tweet key={t.id} {...t} />)} 
 
           <br/>
           {formFlag ? <TweetForm closeTweetForm={closeTweetForm}/> : <button onClick={() => setFormFlag(true)} className="button">Add Tweet</button>}
@@ -55,12 +56,3 @@ function MyTweets() {
     )
 }
 export default MyTweets
-
-
-/* 
-
-soomething.map(a => <Child key={a.key}> a={a})
-
-
-funciton Child({a})
-*/

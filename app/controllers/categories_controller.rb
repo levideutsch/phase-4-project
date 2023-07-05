@@ -1,6 +1,6 @@
 class CategoriesController < ApplicationController
 
-    skip_before_action :authorize, only: [:index]
+    # skip_before_action :authorize, only: [:index]
     
 
     # User creates new category
@@ -23,10 +23,8 @@ class CategoriesController < ApplicationController
     def index
 
         # Grab all categories in order of ABC
-        category = Category.all.order("category ASC")
-
-       
-
+        # category = Category.all.order("category ASC")
+        category = Category.all.includes(:tweets).order("tweets.created_at DESC")
         # Then render that with a status of ok
         render json: category, status: :ok
     end 

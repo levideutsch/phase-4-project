@@ -1,66 +1,41 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useContext } from "react";
 import { useParams } from "react-router-dom";
 import { UserContext } from "./context/user";
 
 function SingleCategory() {
 
-    const [isLoading, setIsLoading] = useState(false)
-    const [singleCategory, setSingleCategory] = useState(null)
-    const { categories } = useContext(UserContext)
-    const { id } = useParams()
+  const { categories } = useContext(UserContext)
+  const { id } = useParams()
 
-    // console.log(singleCategory)
+  // Finding the category that matches 4000/categories/:id
+  const category = categories.find(c => c.id === parseInt(id))
 
-    //Change!!!!!
-    useEffect(async () => {
-        setIsLoading(true)
-        const data = await fetch(`/categories/${id}`).then(res => res.json())
+  // If the category does exist
+  if (!category)
+    return <h3>Category Not Found</h3>
 
-        const category = data.category?.category;
-        const tweets = data.tweets?.map(tweet => tweet)
-        const username = data.tweets?.map(t => t.user.username)
-
-        if (category) {
-          setSingleCategory({
-            category: category,
-            tweets: tweets,
-            username: username
-          });
-        } else {
-          setSingleCategory(null)
-        }
-
-        setIsLoading(false)
-    }, [id])
-
-    // const displayCategoryData = singleCategory.map(item => {
-    //     console.log(item.category)
-    // })
-
-    // console.log(singleCategory.category)
-   
-    return (
-        <div>
-          {isLoading
-            ? <p>Loading...</p>
-            : singleCategory ? (
-              <div>
-                <h2 className="button">Category: {singleCategory.category}</h2>
-                <br/>
-                <h3 className="button">Tweets:</h3>
-                <ul>
-                  {singleCategory.tweets.map((tweet) => (
-                    // <li key={tweet.id}>Tweet: {tweet.body} User: {tweet.user.username}</li>
-                    <article className="button" key={tweet.id}>
-                      {tweet.body}
-                      <br/>
-                      User: {tweet.user.username}
-                    </article>
-                  ))}
-                </ul>
-              </div>
-            ) : <p>Category Not Found</p>}
-        </div>
-      );
+  // Return it along with its associated tweet and its tweets user  
+  return (
+    <div>
+      <h2 className="button">
+        Category: {category.category}
+      </h2>
+      <br/>
+      <h3 className="button">Tweets:</h3>
+      {category.tweets?.map((tweet) => {
+        const user = category.users.find((user) => user.id === tweet.user_id);
+        return (
+          <div>
+            <article className="button" key={tweet.id}>
+              {tweet.body}
+              <br/>
+              User: {user?.username || ''}
+            </article>
+          </div>
+        );
+      })}
+    </div>
+  );
 }
+
 export default SingleCategory

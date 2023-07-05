@@ -19,28 +19,43 @@ class TweetsController < ApplicationController
         render json: tweet, status: :accepted
     end
 
-    # User deletes tweet
+    # # User deletes tweet
+    # def destroy
+
+    # # chnage to current_user.tweets/find_by
+    #   tweet =  current_user.tweets.find_by(id: params[:id])
+    # #   tweet =  Tweet.find_by(id: params[:id])
+    #     # Find the tweet by its ID
+    #     # tweet = Tweet.find_by(id: params[:id])
+
+    #     # Then destroy that tweet
+    #     tweet.destroy
+
+    #     # Then respond with an empty object
+    #     render json: {}
+    # end
+
     def destroy
-
-    # chnage to current_user.tweets/find_by
-        current_user.tweets.find_by(id: params[:id]).destroy
-
-        # Find the tweet by its ID
-        # tweet = Tweet.find_by(id: params[:id])
-
-        # Then destroy that tweet
-        # tweet.destroy
-
-        # Then respond with an empty object
-        render json: {}
-    end
+        # Find the tweet by its ID, belonging to the current user
+        tweet = current_user.tweets.find_by(id: params[:id])
+      
+        if tweet
+          # If the tweet is found, then destroy it
+          tweet.destroy
+          render json: {}
+        else
+          # If the tweet is not found, return an appropriate response
+          render json: { error: 'Tweet not found' }, status: :not_found
+        end
+      end
 
 
     # User creates new tweet
     def create
 
         # Make sure current_user is true
-        user = current_user
+        # user = current_user
+        current_user
 
         # Then find the (tweets) category by its ID
         category =  Category.find_by(category: params[:category])
@@ -52,7 +67,7 @@ class TweetsController < ApplicationController
         else 
 
             # But if the category is valid, the user is allowed to create a new tweet with a tweet body, and the category they selected
-            tweet = user.tweets.create!(
+            tweet = current_user.tweets.create!(
                 body: params[:body],
                 category_id: category.id
             )
@@ -93,7 +108,7 @@ class TweetsController < ApplicationController
         # Find that specific tweet by its ID    
         tweet = Tweet.find_by(id: [params[:id]])
         # Then render it
-            render json: tweet
+            render json: tweet, status: :ok
         else 
         # But if current_user is false, return this
             render json: { error: "Not Found"}, status: :unauthorized # Use unauthorized because we only want to look at current users data

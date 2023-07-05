@@ -36,24 +36,24 @@ class UsersController < ApplicationController
 
       # 
       def show
-          user = current_user
+          # user = current_user
           # Check if the current user is signed in
-          if user
+          if current_user
 
             # If true, grab all tweets along with their categories
             all_tweets = Tweet.includes(:category).order("created_at DESC")
             
             # Then the actual response should be the current_user id, username, profile_photo, password
             response = {
-              id: user.id,
-              username: user.username,
-              profile_photo: user.profile_photo,
+              id: current_user.id,
+              username: current_user.username,
+              profile_photo: current_user.profile_photo,
               password: nil,
               # Then a list of everyone's tweets along with those tweets categories
               tweets: all_tweets.as_json(only: [:id, :body], include: { category: { only: [:id, :category] }, user: { only: [:id, :username] } }),
 
               # Then a list of the current users categories
-              categories: user.categories
+              categories: current_user.categories
               #categories: Category.all.as_json(only: [:id, :category])
             }
             # Then return the "response" as Json

@@ -1,12 +1,12 @@
 import React, { useContext } from "react";
 // import { Route, Routes } from 'react-router-dom'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Home from "./Home";
 import { UserContext } from "./context/user";
 import Signup from "./Signup";
 import Login from "./Login";
 import NavigationBar from "./NavigationBar";
-import Tweets from "./MyTweets";
+// import Tweets from "./MyTweets";
+import MyTweets from "./MyTweets";
 import "./index.css"
 import SingleTweet from "./SingleTweet";
 import Categories from "./Categories";
@@ -27,7 +27,6 @@ function App() {
       <Router>
         <Routes>
           <Route exact path="/signup" element={<Signup/>}/>
-          <Route exact path="/login" element={<Login/>}/>
           <Route path="*" element={<Login />} />
         </Routes>
       </Router>
@@ -38,13 +37,12 @@ function App() {
     <Router>
       <NavigationBar/>
       <Routes>
-        <Route exact path="/" element={<Home/>}/>
-        <Route exact path="/tweets" element={<Tweets/>}/>
+        <Route exact path="/" element={<NewHomePage/>}/>
+        <Route exact path="/tweets" element={<MyTweets/>}/>
         <Route exact path="/tweets/:id" element={<SingleTweet/>}/>
         <Route exact path="/categories" element={<Categories/>}/>
         <Route exact path="/categories/:id" element={<SingleCategory/>}/>
         <Route exact path="/my-profile" element={<UsersProfilePage/>}/>
-        <Route exact path="/new-home" element={<NewHomePage/>}/>
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>

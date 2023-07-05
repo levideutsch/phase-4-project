@@ -133,3 +133,16 @@ a.secondary {
   height: 50px; /* Adjust the height as desired */
   border-radius: 50%; /* Makes the image round */
 }
+
+.tweets {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+
+.new-tweet-form {
+  text-align: center;
+  margin: auto;
+  width: 50%;
+}

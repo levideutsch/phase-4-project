@@ -7,13 +7,14 @@ import { useNavigate } from 'react-router-dom'
 
 function TweetForm({ closeTweetForm }) {
  
-    const { addTweet, addTweetNew } = useContext(UserContext)
+    const { addTweet, user } = useContext(UserContext)
     // const [categoryFormFlag, setCategoryFormFlag] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const navigate = useNavigate()
     const [formData, setFormData] = useState({
         body: "",
-        category: ""
+        category: "", 
+        user_id: user.id
     })
 
 
@@ -30,6 +31,18 @@ function TweetForm({ closeTweetForm }) {
         closeTweetForm()
     }
 
+    // async function handleSubmit(e) {
+    //   e.preventDefault();
+    
+    //   try {
+    //     await addTweet(formData);
+    //     closeTweetForm();
+    //   } catch (error) {
+    //     console.error(error);
+    //     // Handle the error appropriately
+    //   }
+    // }
+
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData((prevState) => ({
@@ -37,6 +50,38 @@ function TweetForm({ closeTweetForm }) {
           [name]: value
         }));
       };
+
+    // async function handleSubmit(e) {
+    //   e.preventDefault();
+    
+    //   try {
+    //     // Get the form data
+    //     const body = formData.body;
+    //     const category = formData.category;
+    
+    //     // Create the new tweet object
+    //     const newTweet = {
+    //       body: body,
+    //       category: category,
+    //       user_id: user.id, // Replace with the appropriate user ID
+    //     };
+    
+    //     // Make the POST request to add the new tweet
+    //     await addTweet(newTweet);
+    
+    //     // Reset the form
+    //     setFormData({
+    //       body: "",
+    //       category: "",
+    //       user_id: user.id,
+    //     });
+    
+    //     closeTweetForm();
+    //   } catch (error) {
+    //     console.error(error);
+    //     // Handle the error appropriately
+    //   }
+    // }
 
       const handleTweetClick = (e) => {
        
@@ -55,8 +100,7 @@ function TweetForm({ closeTweetForm }) {
       };
 
   
-// console.log(formData.body)
-// console.log(formData.category)
+
 
     // const handleTweetSubmit = (e) => {
     //     e.preventDefault();
@@ -101,10 +145,11 @@ function TweetForm({ closeTweetForm }) {
     
 
     return (
-        <div>
-        <form className="button" onSubmit={handleSubmit}>
+        <div className="new-tweet-form">
+        <form  onSubmit={handleSubmit}>
             <label>Tweet:</label>
             <input
+            placeholder="What's on your mind?"
             type="text"
             id="tweet"
             name="body"
@@ -131,7 +176,7 @@ function TweetForm({ closeTweetForm }) {
             <br/>
             {/* <button className="button" onClick={toCategories}>Add Category</button> */}
         </form>
-        <button className="button" onClick={toCategories}>Add Category</button>
+        <button className="single-tweet-form"  onClick={toCategories}>Add Category</button>
         </div>
     )
 }

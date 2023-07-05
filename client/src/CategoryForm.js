@@ -6,8 +6,8 @@ function CategoryForm({ closeForm }) {
 
     const { addCategory } = useContext(UserContext)
     const [formBody, setFormBody] = useState("")
-    // const navigate = useNavigate()
 
+    // Submit new category to categories list
     function handleSubmit(e) {
         e.preventDefault()
 

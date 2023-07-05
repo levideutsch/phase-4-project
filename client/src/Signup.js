@@ -1,3 +1,4 @@
+//❌
 import React, { useState, useContext } from 'react'
 import { UserContext } from './context/user'
 import { useNavigate, NavLink } from 'react-router-dom'
@@ -7,35 +8,18 @@ function Signup() {
     const [password, setPassword] = useState("")
     const [passwordConfirm, setPasswordConfirm] = useState("")
     const [errorsList, setErrorsList] = useState([])
-    const {signup} = useContext(UserContext)
+    const { signup } = useContext(UserContext)
     const navigate = useNavigate()
 
-    const handleSubmit = (e) => {
+    // Submit a new created user
+    const handleSubmit = async (e) => {
         e.preventDefault()
 
-        fetch("/signup", {
-            method: 'POST',
-            headers: {'content-type': 'application/json'},
-            body: JSON.stringify({
-                username: username,
-                password: password,
-                password_confirmation: passwordConfirm
+        return signup(username, password, passwordConfirm)
+            .then(() => navigate('/'))
+            .catch(errors => {
+                setErrorsList(errors)
             })
-        })
-        .then(res => res.json())
-        .then(user => {
-            if (!user.errors) {
-                signup(user)
-                navigate('/')
-            } else {
-                setUsername("")
-                setPassword("")
-                setPasswordConfirm("")
-
-                const errorList = user.errors.map(e => <li>{e}</li>)
-                setErrorsList(errorList)
-            }
-        })
     };
 
     return (
@@ -69,7 +53,7 @@ function Signup() {
             <input type='submit'/>
             </form>
             <ul className='button'>
-                {errorsList}
+                {errorsList.map(error => <li>{error}</li>)}
             </ul>
             <NavLink to="/login">
             <p className='button'>Already have an account?</p>

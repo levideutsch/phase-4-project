@@ -4,26 +4,20 @@ import { Link } from "react-router-dom";
 
 
 function CategoryLinks({ category }) {
+
     const { loggedIn } = useContext(UserContext)
-    // const {id} = useParams() 
+   
 
-    if (loggedIn) {
+    if (!loggedIn)
+      return <h3>Not Authorized - Please Signup or Login</h3>
 
+    // Clicking on category link will send you so <SingleCategory/>  
     return(
-    
-            <div>
-            <Link to={`/categories/${category.id}`}>
-              
-              <p>{category.category}</p>
-            </Link>
-          </div>
-      
+      <div>
+        <Link to={`/categories/${category.id}`}>
+          <p>{category.category}</p>
+        </Link>
+      </div>
     )
-    } else {
-      return (
-        <h3>Not Authorized - Please Signup or Login</h3>
-        )
-    }
-
 }
 export default CategoryLinks
