@@ -6,7 +6,6 @@ function NewHomePage() {
 
   const { categories } = useContext(UserContext)
 
-  // Iterate over categories and map out all categories along with their related tweets and users, then display them all
   return (
     <div className="tweets">
       {categories?.map(category => (

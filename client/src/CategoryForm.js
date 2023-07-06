@@ -1,13 +1,11 @@
 import React, { useState, useContext } from "react";
 import { UserContext } from "./context/user";
-// import { useNavigate } from "react-router-dom";
 
 function CategoryForm({ closeForm }) {
 
     const { addCategory } = useContext(UserContext)
     const [formBody, setFormBody] = useState("")
 
-    // Submit new category to categories list
     function handleSubmit(e) {
         e.preventDefault()
 

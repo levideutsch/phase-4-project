@@ -1,39 +1,31 @@
 import React, { useState, useContext } from "react";
-// import { useParams } from 'react-router-dom'
 import { UserContext } from "./context/user";
 import TweetForm from "./TweetForm";
-// import TweetLinks from "./TweetLinks";
 import { Link } from "react-router-dom";
 
 function MyTweets() {
 
     const { user, error } = useContext(UserContext)
     const [formFlag, setFormFlag] = useState(false)
-    // const params = useParams()
 
     const closeTweetForm = () => {
         setFormFlag(false)
     }
 
-   
-    // Users tweets with link to single tweet when clicked on
-    const Tweet = ({body, id}) => (
+   const Tweet = ({body, id}) => (
       <article className="my-stuff">
         <Link to={`/tweets/${id}`}>
           {body}
           <br/>
         </Link>
-        {/* <p>User: {tweet.user.username}</p> */}
       </article>
     )
 
-    // Users used categories with link to single category when clicked on
     const Category = ({category, id}) => (
       <article className="my-stuff">
         <Link to={`/categories/${id}`}>
           {category}
         </Link>
-        {/* <p>User: {tweet.user.username}</p> */}
       </article>
     )
 

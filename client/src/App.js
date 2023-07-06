@@ -1,20 +1,16 @@
 import React, { useContext } from "react";
-// import { Route, Routes } from 'react-router-dom'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { UserContext } from "./context/user";
 import Signup from "./Signup";
 import Login from "./Login";
 import NavigationBar from "./NavigationBar";
-// import Tweets from "./MyTweets";
 import MyTweets from "./MyTweets";
 import "./index.css"
 import SingleTweet from "./SingleTweet";
 import Categories from "./Categories";
 import SingleCategory from "./SingleCategory";
-// import TestPage from "./TestPage";
 import "@picocss/pico/css/pico.min.css";
 import NotFound from "./NotFound";
-// import Unauthorized from "./Unauthorized"
 import UsersProfilePage from "./UsersProfilePage";
 import NewHomePage from "./NewHomePage";
 

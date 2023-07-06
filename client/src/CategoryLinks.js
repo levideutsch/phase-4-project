@@ -7,11 +7,9 @@ function CategoryLinks({ category }) {
 
     const { loggedIn } = useContext(UserContext)
    
-
     if (!loggedIn)
       return <h3>Not Authorized - Please Signup or Login</h3>
 
-    // Clicking on category link will send you so <SingleCategory/>  
     return(
       <div>
         <Link to={`/categories/${category.id}`}>

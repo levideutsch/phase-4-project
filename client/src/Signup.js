@@ -1,4 +1,3 @@
-//❌
 import React, { useState, useContext } from 'react'
 import { UserContext } from './context/user'
 import { useNavigate, NavLink } from 'react-router-dom'
@@ -11,7 +10,7 @@ function Signup() {
     const { signup } = useContext(UserContext)
     const navigate = useNavigate()
 
-    // Submit a new created user
+
     const handleSubmit = async (e) => {
         e.preventDefault()
 
@@ -26,7 +25,6 @@ function Signup() {
         <div>
             <h3 className='button'>Create Your !Twitter Account</h3>
             <form onSubmit={handleSubmit} className='button'>
-            {/* <label>Username</label> */}
             <input
                 placeholder='Username'
                 type='text'
@@ -34,7 +32,6 @@ function Signup() {
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
             /> <br/>
-            {/* <label>Password</label> */}
             <input
                 placeholder='Password'
                 type='password'
@@ -42,7 +39,6 @@ function Signup() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
             /> <br/>
-              {/* <label>Password Confirmation</label> */}
             <input
                 placeholder='Password Confirmation'
                 type='password'
