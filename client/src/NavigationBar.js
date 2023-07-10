@@ -5,7 +5,7 @@ import LoadingPage from './LoadingPage';
 
 
 function NavigationBar() {
-    const { user, logout, loggedIn, setLoggedIn } = useContext(UserContext)
+    const { newUser, user, logout, loggedIn, setLoggedIn } = useContext(UserContext)
     const navigate = useNavigate()
     const [isLoading, setIsLoading] = useState(false);
     
@@ -68,8 +68,8 @@ function NavigationBar() {
           <ul>
             <li><strong onClick={backHome}>!Twitter</strong></li>
             <Link to="/my-profile">
-            <li><a href="/" className="secondary">Hello {user.username}</a></li>
-            <img className='profile-photo' src={user.profile_photo} alt='Your profile'></img>
+            <li><a href="/" className="secondary">Hello {newUser?.username}</a></li>
+            <img className='profile-photo' src={newUser?.profile_photo} alt='Your profile'></img>
             </Link>
           </ul>
           <ul>
@@ -77,6 +77,8 @@ function NavigationBar() {
               <li><NavLink to="/">Home</NavLink></li>
               <br/>
               <li><NavLink to="/tweets">My Stuff</NavLink></li>
+              <br/>
+              <li><NavLink to="/users-page">{newUser?.username}'s Stuff</NavLink></li>
               <br/>
               <li><NavLink to="/categories">Categories</NavLink></li>
               <br/>

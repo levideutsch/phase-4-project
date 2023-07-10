@@ -9,7 +9,7 @@ export default function Login() {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [errors, setErrors] = useState([])
-  const { login } = useContext(UserContext)
+  const { login, error, setError } = useContext(UserContext)
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e) => {
@@ -23,6 +23,7 @@ export default function Login() {
       setErrors(Array.isArray(error) ? error : [ error.error ]);
     } finally {
       setIsLoading(false);
+      setErrors([])
     }
   };
 
@@ -49,15 +50,19 @@ export default function Login() {
         />
         <br/>
         <input type='submit'/>
+        <a className="button">{error}</a>
       </form>
       {/* only render a list of errors if we have them */}
-      {errors.length > 0
+     
+    
+      {/* {errors.length > 0
         ? <ul className='button'>
             {errors.map(error => <li>{error}</li>)}
         </ul>
-        : null}
+        : null} */}
+        <br/>
       <NavLink to='/signup'>
-          <p className='button'>Need Account?</p>
+          <p className='button' onClick={() => setError([])}> Need Account?</p>
       </NavLink>
     </div>
   )

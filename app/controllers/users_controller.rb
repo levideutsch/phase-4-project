@@ -4,9 +4,9 @@ class UsersController < ApplicationController
 
  
     def create 
-        user = User.create(user_params)
+        user = User.create!(user_params)
         session[:user_id] = user.id
-        render json: user, status: :created
+        render json: user, status: :ok
     end
 
     def update
@@ -17,21 +17,26 @@ class UsersController < ApplicationController
       end
 
 
-      def show
-          if current_user
-            all_tweets = Tweet.includes(:category).order("created_at DESC")
-            response = {
-              id: current_user.id,
-              username: current_user.username,
-              profile_photo: current_user.profile_photo,
-              password: nil,
-              tweets: all_tweets.as_json(only: [:id, :body], include: { category: { only: [:id, :category] }, user: { only: [:id, :username] } }),
-              categories: current_user.categories
-            }
-            render json: response, status: :ok
-          else
-            render json: { error: "Not authorized" }, status: :unauthorized
-          end
+    #   def show
+    #       if current_user
+    #         all_tweets = Tweet.includes(:category).order("created_at DESC")
+    #         response = {
+    #           id: current_user.id,
+    #           username: current_user.username,
+    #           profile_photo: current_user.profile_photo,
+    #           password: nil,
+    #           tweets: all_tweets.as_json(only: [:id, :body], include: { category: { only: [:id, :category] }, user: { only: [:id, :username] } }),
+    #           categories: current_user.categories
+    #         }
+    #         render json: response, status: :ok
+    #       else
+    #         render json: { error: "Not authorized" }, status: :unauthorized
+    #       end
+    #     end
+
+        def show
+          current_user
+          render json: current_user, status: :ok
         end
 
 

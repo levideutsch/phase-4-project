@@ -33,7 +33,7 @@ function MyTweets() {
       <div className="grid">
         <div>
           <h2 className="my-stuff">My Tweets</h2>
-          {user.tweets.map(t => <Tweet key={t.id} {...t} />)} 
+          {user.tweets?.map(t => <Tweet key={t.id} {...t} />)} 
 
           <br/>
           {formFlag ? <TweetForm closeTweetForm={closeTweetForm}/> : <button onClick={() => setFormFlag(true)} className="button">Add Tweet</button>}
@@ -42,7 +42,7 @@ function MyTweets() {
         <img className="my-stuff" src={user.profile_photo} alt="Your profile"></img>
         <div>
           <h2 className="my-stuff">My Categories</h2>
-          {user.categories.map(c => <Category key={c.id} {...c} />)}
+          {user.categories?.map(c => <Category key={c.id} {...c} />)}
         </div>
       </div>
     )

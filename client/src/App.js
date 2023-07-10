@@ -13,6 +13,8 @@ import "@picocss/pico/css/pico.min.css";
 import NotFound from "./NotFound";
 import UsersProfilePage from "./UsersProfilePage";
 import NewHomePage from "./NewHomePage";
+import UsersPage from "./UsersPage";
+
 
 function App() {
 
@@ -35,6 +37,7 @@ function App() {
       <Routes>
         <Route exact path="/" element={<NewHomePage/>}/>
         <Route exact path="/tweets" element={<MyTweets/>}/>
+        <Route exact path="/users-page" element={<UsersPage/>}/>
         <Route exact path="/tweets/:id" element={<SingleTweet/>}/>
         <Route exact path="/categories" element={<Categories/>}/>
         <Route exact path="/categories/:id" element={<SingleCategory/>}/>

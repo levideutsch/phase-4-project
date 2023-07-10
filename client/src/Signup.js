@@ -7,20 +7,16 @@ function Signup() {
     const [password, setPassword] = useState("")
     const [passwordConfirm, setPasswordConfirm] = useState("")
     const [errorsList, setErrorsList] = useState([])
-    const { signup } = useContext(UserContext)
+    const { signup, error } = useContext(UserContext)
     const navigate = useNavigate()
 
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-
         return signup(username, password, passwordConfirm)
-            .then(() => navigate('/'))
-            .catch(errors => {
-                setErrorsList(errors)
-            })
-    };
-
+        .then(() =>  navigate('/'))
+    }
+console.log(error)
     return (
         <div>
             <h3 className='button'>Create Your !Twitter Account</h3>
@@ -49,7 +45,8 @@ function Signup() {
             <input type='submit'/>
             </form>
             <ul className='button'>
-                {errorsList.map(error => <li>{error}</li>)}
+                {error?.map(e => <li>{e}</li>)}
+             
             </ul>
             <NavLink to="/login">
             <p className='button'>Already have an account?</p>

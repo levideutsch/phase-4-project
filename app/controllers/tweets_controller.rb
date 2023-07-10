@@ -20,7 +20,7 @@ class TweetsController < ApplicationController
         current_user
         category =  Category.find_by(category: params[:category])
         if category == nil 
-            render json: {error: "Select a category"}, status: :unprocessable_entity
+            render json: {error: "Category or text body blank"}, status: :unprocessable_entity
         else 
             tweet = current_user.tweets.create!(
                 body: params[:body],

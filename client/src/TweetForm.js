@@ -5,13 +5,15 @@ import { useNavigate } from 'react-router-dom'
 
 function TweetForm({ closeTweetForm }) {
  
-    const { addTweet } = useContext(UserContext)
+    const { addTweet, addNewTweet, error } = useContext(UserContext)
     const [isLoading, setIsLoading] = useState(false)
     const navigate = useNavigate()
     const [formData, setFormData] = useState({
         body: "",
         category: "", 
     })
+
+    console.log(error)
 
     const toCategories = () => {
         navigate("/categories")
@@ -39,7 +41,8 @@ function TweetForm({ closeTweetForm }) {
     
         setTimeout(() => {
           setIsLoading(false);
-          addTweet(formData)
+          // addTweet(formData)
+          addNewTweet(formData)
           closeTweetForm()
         }, 750);
       };

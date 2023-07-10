@@ -4,32 +4,54 @@ import { UserContext } from "./context/user";
 import { useNavigate } from 'react-router-dom';
 import { Link } from "react-router-dom";
 
+
 function SingleTweet() {
 
   const [singleTweet, setSingleTweet] = useState(null)
+  const [SingleCategory, setSingleCategory] = useState(null)
   const [showForm, setShowForm] = useState(false)
   const [tweetBody, setTweetBody] = useState("")
   const [isLoadingDelete, setIsLoadingDelete] = useState(false);
   const [isLoadingEdit, setIsLoadingEdit] = useState(false);
   const [isMyTweet, setIsMyTweet] = useState(true)
-  const { deleteTweet, editTweet, categories, user} = useContext(UserContext)
+  const { deleteTweet, deleteNewTweet, editTweet, editNewTweet, categories, user, newUser} = useContext(UserContext)
   const { id } = useParams()
   const navigate = useNavigate()
 
 
+  // useEffect(() => {
+  //   const tweet = categories
+  //     .reduce((arr, category) => arr.concat(
+  //       category.tweets.map(t => ({...t, category}))
+  //     ), [])
+  //     .find(tweet => tweet.id === parseInt(id));
+  //     if (tweet === undefined || tweet.user_id !== newUser.id)
+  //         setIsMyTweet(false)
+  //     else 
+  //     setIsMyTweet(true)
+  //     setSingleTweet(tweet);
+  //     setTweetBody(tweet ? tweet.body : '');
+  // }, [id, showForm, categories]);
+
   useEffect(() => {
-    const tweet = categories
-      .reduce((arr, category) => arr.concat(
-        category.tweets.map(t => ({...t, category}))
-      ), [])
-      .find(tweet => tweet.id === parseInt(id));
-      if (tweet === undefined || tweet.user_id !== user.id)
-          setIsMyTweet(false)
-      else 
+    const mySingleTweet = newUser?.tweets && newUser.tweets.find(tweet => tweet.id === parseInt(id));
+    const mySingleTweetsCategory = newUser?.categories && 
+    newUser.categories.find(category => category.id == mySingleTweet?.category_id)
+
+    setSingleTweet(mySingleTweet)
+    setSingleCategory(mySingleTweetsCategory)
+    setTweetBody(mySingleTweet ? mySingleTweet.body : "")
+    console.log(mySingleTweet)
+    console.log(mySingleTweetsCategory)
+    if (singleTweet == undefined || singleTweet?.user_id !== newUser?.id) {
+      setIsMyTweet(false)
+    } else {
       setIsMyTweet(true)
-      setSingleTweet(tweet);
-      setTweetBody(tweet ? tweet.body : '');
-  }, [id, showForm, categories]);
+    }
+
+  }, [id, newUser, singleTweet, SingleCategory, showForm])
+
+  
 
   const handleForm = () => {
     setShowForm((showForm) => !showForm);
@@ -41,7 +63,8 @@ function SingleTweet() {
 
     setTimeout(() => {
     setIsLoadingEdit(false);
-    editTweet({ ...singleTweet, body: tweetBody });
+    // editTweet({ ...singleTweet, body: tweetBody });
+    editNewTweet({ ...singleTweet, body: tweetBody })
     setSingleTweet({ ...singleTweet, body: tweetBody})
     handleForm(false)
     }, 750);
@@ -52,14 +75,17 @@ function SingleTweet() {
 
     setTimeout(() => {
       setIsLoadingDelete(false);
-      deleteTweet(singleTweet.id);
-      navigate('/tweets');
+      //deleteTweet(singleTweet.id);
+      deleteNewTweet(singleTweet.id)
+      navigate('/users-page');
     }, 750);
   };
 
-  if (!singleTweet || isMyTweet == false) {
-    return <div className="button">Tweet not found.</div>;
-  }
+  console.log(SingleCategory)
+
+  // if (!singleTweet || isMyTweet === false) {
+  //   return <div className="button">Tweet not found. Go back</div>;
+  // }
 
   return (
     <div>
@@ -67,18 +93,15 @@ function SingleTweet() {
       <hgroup className="button">
         <h2>Tweet Details</h2>
         <h3>
-          <Link to={`/categories/${singleTweet.category_id}`}>
-            {singleTweet.category.category}
+          <Link to={`/categories/${SingleCategory?.id}`}>
+            {SingleCategory?.category}
           </Link>
         </h3>
       </hgroup>
-
       <article className="button">
-        {singleTweet.body} || {user.username}
-      </article>
-
+        {singleTweet?.body} || {newUser?.username}
+      </article>  
       <hr/>
-
       <button
       className="button"
       aria-busy={isLoadingDelete ? 'true' : 'false'}
@@ -87,11 +110,8 @@ function SingleTweet() {
       >
       {isLoadingDelete ? 'Loading...' : 'Delete'}
       </button>
-
       <br/>
-
       <button className="button" onClick={handleForm}>Edit</button>
-
       {showForm &&
         <form className="button" onSubmit={handleEditClick}>
           <input
@@ -101,7 +121,6 @@ function SingleTweet() {
           value={tweetBody}
           onChange={e => setTweetBody(e.target.value)}
           />
-    
           <button
           className="button"
           aria-busy={isLoadingEdit ? 'true' : 'false'}
@@ -110,7 +129,6 @@ function SingleTweet() {
           >
           {isLoadingDelete ? 'Loading...' : 'Save'}
           </button>
-          
         </form>
       }
     </div>

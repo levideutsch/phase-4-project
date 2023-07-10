@@ -5,12 +5,12 @@ import { Link } from "react-router-dom";
 function NewHomePage() {
 
   const { categories } = useContext(UserContext)
-
+console.log(categories)
   return (
     <div className="tweets">
       {categories?.map(category => (
-        category.tweets && category.tweets.map(tweet => (
-          <article className="button" key={tweet.id}>
+        category?.tweets && category.tweets?.map(tweet => (
+       <article className="button" key={tweet.id}>
             {tweet.body}
             <hr />
             <small>
@@ -22,7 +22,7 @@ function NewHomePage() {
             </small>
           </article>
         ))
-      ))}
+        ))}
     </div>
   )
 }
