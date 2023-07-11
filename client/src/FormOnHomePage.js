@@ -3,7 +3,7 @@ import { UserContext } from "./context/user";
 import SelectCategories from "./SelectCategories";
 import { useNavigate } from 'react-router-dom'
 
-function TweetForm({ closeTweetForm }) {
+function FormOnHomePage({ isFormOpen }) {
  
     const { addTweet, addNewTweet, error, setError } = useContext(UserContext)
     const [isLoading, setIsLoading] = useState(false)
@@ -13,21 +13,16 @@ function TweetForm({ closeTweetForm }) {
         category: "", 
     })
 
-
-  
-
     const toCategories = () => {
         navigate("/categories")
     }
 
-    function handleSubmit(e) {
-        e.preventDefault()
+    // function handleSubmit(e) {
+    //     e.preventDefault()
 
-        // addTweet(formData)
-        // addNewTweet(formData)
-        setFormData("")
-        closeTweetForm()
-    }
+    //     // addTweet(formData)
+    //     // closeTweetForm()
+    // }
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -37,7 +32,7 @@ function TweetForm({ closeTweetForm }) {
         }));
       };
 
-      const handleTweetClick = (e) => {
+      const handleSubmit = (e) => {
        
         e.preventDefault()
         setIsLoading(true);
@@ -46,8 +41,8 @@ function TweetForm({ closeTweetForm }) {
           setIsLoading(false);
           // addTweet(formData)
           addNewTweet(formData)
-         
-          closeTweetForm()
+          isFormOpen(false)
+        //   closeTweetForm()
         }, 750);
       };
     
@@ -56,11 +51,12 @@ function TweetForm({ closeTweetForm }) {
     return (
         <div className="new-tweet-form">
 
-        <form  onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} >
 
-            <label>Tweet:</label>
+            <label>!Tweet</label>
 
-            <input
+            <textarea 
+            // <input
             placeholder="What's on your mind?"
             type="text"
             id="tweet"
@@ -69,15 +65,16 @@ function TweetForm({ closeTweetForm }) {
             onChange={handleInputChange}/>
 
             <SelectCategories 
-            formData={formData} 
+            formData={formData.category} 
             setFormData={setFormData} 
             handleInputChange={handleInputChange}
+            // />
             />
 
             <button
             type="submit"
             aria-busy={isLoading ? 'true' : 'false'}
-            onClick={handleTweetClick}
+            // onClick={handleTweetClick}
             disabled={isLoading}
             >
             {isLoading ? 'Loading...' : 'Tweet'}
@@ -106,4 +103,4 @@ function TweetForm({ closeTweetForm }) {
         </div>
     )
 }
-export default TweetForm
+export default FormOnHomePage

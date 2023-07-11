@@ -146,3 +146,52 @@ a.secondary {
   margin: auto;
   width: 50%;
 }
+
+.fixed-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 9999;
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  /* border-radius: 5px; */
+  width: 50px;
+  height: 50px; 
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.fixed-button:hover {
+  background-color: #0056b3;
+}
+
+/* .form-container {
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  z-index: 999;
+  background-color: #181623;
+  padding: 20px;
+  border: 1px solid #0d142e;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+} */
+
+.form-container {
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  z-index: 999;
+  /* background-color: #181623; */
+  padding: 20px;
+  /* border: 1px solid #0d142e; */
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.form-container textarea {
+  width: 100%;
+  min-height: 100px;
+  resize: vertical;
+}

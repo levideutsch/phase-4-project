@@ -9,9 +9,12 @@ function SingleCategory() {
 
   const category = categories.find(c => c.id === parseInt(id))
 
- 
+ console.log(category?.tweets.length)
   if (!category)
     return <h3>Category Not Found</h3>
+
+  if (category?.tweets.length < 1)
+  return <h3 className="button">{category.category} Has no tweets</h3>
 
   return (
     <div>

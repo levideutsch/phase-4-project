@@ -7,16 +7,16 @@ function Signup() {
     const [password, setPassword] = useState("")
     const [passwordConfirm, setPasswordConfirm] = useState("")
     const [errorsList, setErrorsList] = useState([])
-    const { signup, error } = useContext(UserContext)
+    const { signup, error, setError } = useContext(UserContext)
     const navigate = useNavigate()
 
 
     const handleSubmit = async (e) => {
         e.preventDefault()
         return signup(username, password, passwordConfirm)
-        .then(() =>  navigate('/'))
+        // .then(() =>  navigate('/'))
     }
-console.log(error)
+
     return (
         <div>
             <h3 className='button'>Create Your !Twitter Account</h3>
@@ -49,7 +49,7 @@ console.log(error)
              
             </ul>
             <NavLink to="/login">
-            <p className='button'>Already have an account?</p>
+            <p className='button' onClick={() => setError(null)}>Already have an account?</p>
             </NavLink>
         </div>
     );

@@ -83,9 +83,9 @@ function SingleTweet() {
 
   console.log(SingleCategory)
 
-  // if (!singleTweet || isMyTweet === false) {
-  //   return <div className="button">Tweet not found. Go back</div>;
-  // }
+  if (!singleTweet || isMyTweet === false) {
+    return <div className="button">Tweet not found. Go back</div>;
+  }
 
   return (
     <div>

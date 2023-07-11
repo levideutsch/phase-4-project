@@ -4,7 +4,7 @@ class CategoriesController < ApplicationController
     def create 
       category = Category.new(category_params)
       category.save!
-      render json: category, status: :created
+      render json: category, status: :ok
     end
 
     

@@ -3,7 +3,7 @@ import { UserContext } from "./context/user";
 
 function CategoryForm({ closeForm }) {
 
-    const { addCategory } = useContext(UserContext)
+    const { addCategory, error } = useContext(UserContext)
     const [formBody, setFormBody] = useState("")
 
     function handleSubmit(e) {
@@ -26,6 +26,7 @@ function CategoryForm({ closeForm }) {
             onChange={(e) => setFormBody(e.target.value)}/>
             <input type="submit"/>
             <br/>
+            {error}
         </form>
        </div>
     )

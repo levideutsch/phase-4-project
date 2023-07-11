@@ -1,11 +1,17 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { UserContext } from "./context/user";
 import { Link } from "react-router-dom";
+import FormOnHomePage from "./FormOnHomePage";
 
 function NewHomePage() {
 
   const { categories } = useContext(UserContext)
-console.log(categories)
+  const [isFormOpen, setIsFormOpen] = useState(false);
+
+  const handleForm = () => {
+    setIsFormOpen((prevIsFormOpen) => !prevIsFormOpen);
+  };
+
   return (
     <div className="tweets">
       {categories?.map(category => (
@@ -23,6 +29,16 @@ console.log(categories)
           </article>
         ))
         ))}
+
+        <button className="fixed-button" onClick={handleForm}>
+              {/* <img src={buttonImg} alt="Button" /> */}
+            </button>
+            {isFormOpen && (
+              <div className="form-container">
+                <FormOnHomePage isFormOpen={setIsFormOpen} />
+              </div>
+            )}
+
     </div>
   )
 }

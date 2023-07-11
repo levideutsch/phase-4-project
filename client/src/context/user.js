@@ -5,6 +5,7 @@ const UserContext = React.createContext();
 function UserProvider({ children }) {
 
     const [error, setError] = useState([]);
+    const [currentPage, setCurrentPage] = useState("");
    
     const [user, setUser] = useState({})
 
@@ -13,6 +14,7 @@ function UserProvider({ children }) {
     const [loggedIn, setLoggedIn] = useState(false)
 
     const [newUser, setNewUser] = useState({})//🟥
+
 
  
     const login = async (username, password) => {
@@ -23,11 +25,11 @@ function UserProvider({ children }) {
       })
       if (!response.ok) {
         const error = await response.json();
-        // return Promise.reject(error.errors)
         setError(error.errors)
       }
-      await getCategories() 
-      await loadUser() 
+      getCategories() 
+      await loadUser()
+      setError([]) 
     }
 
     async function loadUser() {
@@ -44,16 +46,13 @@ function UserProvider({ children }) {
         setLoggedIn(false)
         return;
       }
-      // user.tweets = user.tweets.filter(t => t.user.id === user.id)
-      // setUser(user)
       setNewUser(newUser)//🟥
       setLoggedIn(true)
-      // console.log(user.tweets)
     }
 
     useEffect(() => {
       async function load() {
-        await getCategories();
+        getCategories();
         // ensure we don't load the user until we have the categories
         await loadUser();
       }
@@ -61,15 +60,9 @@ function UserProvider({ children }) {
     }, [])
 
     const logout = () => {
-      setCategories([])
+      setCategories(null)
       setLoggedIn(false)
-     
-      setNewUser({})//🟥 
-      // setUser({})
-      // setNewUser({})//🟥 
-      // setLoggedIn(false)
-      // setUser({})
-      // setCategories([])
+      setNewUser(null)
     }
 
     const signup = async (username, password, password_confirmation) => {
@@ -89,17 +82,27 @@ function UserProvider({ children }) {
      loadUser() 
         }
       })
-  
-        // return Promise.reject(data.errors || ['Server Error'])
-
-      // await getCategories() 
-      // await loadUser() 
     }
 
     
-    async function getCategories() { setCategories(await fetch("/categories").then(res => res.json())) }
+    // async function getCategories() { setCategories(await fetch("/categories").then(res => res.json())) }
     
 
+    function getCategories() {
+      fetch("/categories")
+      .then(response => {
+        if (!response.ok) {
+          response.json().then(err => {
+            console.log(err.error)
+            setError(err.error)
+          })
+        } else {
+          response.json()
+          .then(data => setCategories(data))
+        }
+      })
+      
+    }
 
     //////////////////////////////////////////////////
 
@@ -111,79 +114,68 @@ function UserProvider({ children }) {
       })
       .then((response) => {
         if (!response.ok) {
-          response.json().then((err) => setError(err.errors));
+          response.json().then((err) => { 
+             console.log(Object.values(err))
+             
+            setError(Object.values(err));
+            });
         } else {
           response.json().then((data) => {
 
-          // Updating newUser state  
 
-          // Check if the new tweets category already exists
            const findIfCategoryUserState = newUser.categories.find(c => c.category === data.category.category)
 
-           // If the newUser does not already have that category
            if (!findIfCategoryUserState) {
             setNewUser({
-              // Copy newUser
               ...newUser,
-              // Go into newUser's tweets, and update with our new tweet {body: data.body} 
               tweets: [data, ...newUser.tweets],
-              // Go into newUser's categories and, and at the new category to newUser along with that tweets ID.
               categories: [{category: data.category.category, id: data.category.id}, ...newUser.categories] 
             })
-            // But if the category already exists
            } else {
             setNewUser({
-              // Cope newUser
               ...newUser,
-              // And only update the newUser's tweets and NOT categories because that category already exists
               tweets: [data, ...newUser.tweets]
 
             })
+            setError(null)
           }
-            
+          
 
-            // Objective: add new tweet to setCategories         
-
-
-            setCategories(prevCategories => {
-             
-              return prevCategories.map(category => {
-                
-                const mappedCategories = { ...category}
-              
-                if(category.id === data.category_id) {
-                  category.tweets = [
-                    { 
+          setCategories(prevCategories => {
+            return prevCategories.map(category => {
+              if (category.id === data.category_id) {
+                return {
+                  ...category,
+                  tweets: [
+                    {
                       id: data.id,
                       body: data.body,
                       user_id: data.user_id,
                       category_id: data.category_id
                     },
-                    ...category.tweets]
-
-                  category.users = [
-                  {
-                  
-                    id: data.user.id,
-                    username: data.user.username
-
-                  },
-                  ...category.users]    
-                }
-                return mappedCategories
-              })
-            }
-          )}
+                    ...category.tweets
+                  ],
+                  users: [
+                    ...new Set([
+                      {
+                        id: data.user.id,
+                        username: data.user.username
+                      },
+                      ...category.users
+                    ])
+                  ]
+                };
+              }
+              return category;
+            });
+          });
+        }
         );
       }
     })
-      .catch((error) => {
-        console.log(error);
-     
-      });
-      // debugger
-      console.log(categories)
-    }
+  }
+    
+   
 
     
     // async function addTweet(tweet) {
@@ -406,45 +398,26 @@ function UserProvider({ children }) {
       });
     }
 
-    // function addNewCategory(newCategory) {
-    //   fetch("/categories", {
-    //     method: 'POST',
-    //     headers: {'content-type': 'application/json'},
-    //     body: JSON.stringify(newCategory)
-    //   })
-    //   .then(response => {
-    //     if (!response.ok) {
-    //       response.json().then((err) => setError(err.errors))
-    //     } else {
-    //       response.json(data => {
-    //         setNewUser()
-    //         setCategories()
-    //       })
-    //     }
-    //   })
-    // }
-
     function addCategory(newCategory) {
       fetch("/categories", {
         method: 'POST',
         headers: {'content-type': 'application/json'},
         body: JSON.stringify(newCategory)
       })
-      .then(res => {
-        if (!res.ok) {
-          throw new Error('Failed to create category');
+      .then(response => {
+        if (!response.ok) {
+          response.json().then(err => {
+            console.log(err.errors)
+            setError(err.errors)
+          })
+        } else {
+          response.json().then(data => {
+            setCategories(prevCategories => [data, ...prevCategories])
+            setError(null)
+          })
         }
-        return res.json();
       })
-      .then(newCategory => {
-        setCategories(prevCategories => [newCategory, ...prevCategories]);
-        setError(null);
-      })
-      .catch(error => {
-        console.error(error);
-        setError(error.message);
-      });
-    }
+    } 
     
     return (
         <UserContext.Provider value={{ 
@@ -454,23 +427,18 @@ function UserProvider({ children }) {
           signup,
           loggedIn,
           setLoggedIn,
-        
           error,
           setError,
           addCategory,
           categories,
           addProfilePhoto,
-
           user,
           newUser,
-
-          // addTweet,
-          // deleteTweet,
-          // editTweet,
           setNewUser,
           addNewTweet,
           deleteNewTweet,
-          editNewTweet
+          editNewTweet,
+          setCurrentPage
           }}
         >
           { children }

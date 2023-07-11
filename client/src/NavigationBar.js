@@ -1,14 +1,19 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { UserContext } from "./context/user"
-import { Link, NavLink, useNavigate } from 'react-router-dom'
+import { Link, NavLink, useNavigate,  useLocation } from 'react-router-dom'
 import LoadingPage from './LoadingPage';
 
 
 function NavigationBar() {
-    const { newUser, user, logout, loggedIn, setLoggedIn } = useContext(UserContext)
+    const { newUser, user, logout, loggedIn, setLoggedIn, setError, setCurrentPage } = useContext(UserContext)
     const navigate = useNavigate()
+    const location = useLocation()
     const [isLoading, setIsLoading] = useState(false);
-    
+
+    useEffect(() => {
+      setError(null);
+    }, [location.pathname, setError]);
+  
 
     const backHome = () => {
         navigate("/")
@@ -38,6 +43,7 @@ function NavigationBar() {
         .then(() => {
           logout();
         setLoggedIn(false)
+        setError(null)
           // Was "/"
           navigate('/login');
         })
@@ -53,14 +59,14 @@ function NavigationBar() {
       return <LoadingPage />;
     }
 
-    if (!loggedIn) {
-      return (
-        <div>
-            <h1 className='button'>Welcome to !Twitter</h1>
-            <hr/>
-        </div>
-      )
-    }
+    // if (!loggedIn) {
+    //   return (
+    //     <div>
+    //         <h1 className='button'>Welcome to !Twitter</h1>
+    //         <hr/>
+    //     </div>
+    //   )
+    // }
 
     return (
       <div>
@@ -75,8 +81,6 @@ function NavigationBar() {
           <ul>
               {/* <li><NavLink to="/">Home</NavLink></li> */}
               <li><NavLink to="/">Home</NavLink></li>
-              <br/>
-              <li><NavLink to="/tweets">My Stuff</NavLink></li>
               <br/>
               <li><NavLink to="/users-page">{newUser?.username}'s Stuff</NavLink></li>
               <br/>

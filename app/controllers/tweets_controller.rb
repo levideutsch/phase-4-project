@@ -26,7 +26,7 @@ class TweetsController < ApplicationController
                 body: params[:body],
                 category_id: category.id
             )
-            render json: tweet, status: :created
+            render json: tweet, status: :ok
         end
     end
 

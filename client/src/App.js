@@ -4,7 +4,7 @@ import { UserContext } from "./context/user";
 import Signup from "./Signup";
 import Login from "./Login";
 import NavigationBar from "./NavigationBar";
-import MyTweets from "./MyTweets";
+// import MyTweets from "./MyTweets";
 import "./index.css"
 import SingleTweet from "./SingleTweet";
 import Categories from "./Categories";
@@ -14,6 +14,7 @@ import NotFound from "./NotFound";
 import UsersProfilePage from "./UsersProfilePage";
 import NewHomePage from "./NewHomePage";
 import UsersPage from "./UsersPage";
+import Unauthorized from "./Unauthorized";
 
 
 function App() {
@@ -25,7 +26,8 @@ function App() {
       <Router>
         <Routes>
           <Route exact path="/signup" element={<Signup/>}/>
-          <Route path="*" element={<Login />} />
+          <Route path="/" element={<Login />} />
+          <Route path="/login" element={<Login />} />
         </Routes>
       </Router>
     )
@@ -36,7 +38,7 @@ function App() {
       <NavigationBar/>
       <Routes>
         <Route exact path="/" element={<NewHomePage/>}/>
-        <Route exact path="/tweets" element={<MyTweets/>}/>
+        {/* <Route exact path="/tweets" element={<MyTweets/>}/> */}
         <Route exact path="/users-page" element={<UsersPage/>}/>
         <Route exact path="/tweets/:id" element={<SingleTweet/>}/>
         <Route exact path="/categories" element={<Categories/>}/>

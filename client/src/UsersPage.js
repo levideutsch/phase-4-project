@@ -12,7 +12,7 @@ function UsersPage() {
     const closeTweetForm = () => {
         setFormFlag(false)
     }
-console.log(newUser)
+// console.log(newUser)
     const Tweet = ({body, id}) => (
         <article className="my-stuff">
           <Link to={`/tweets/${id}`}>

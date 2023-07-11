@@ -1,9 +1,15 @@
+import React, { useContext }  from "react";
 import { Link } from "react-router-dom";
+import { UserContext } from "./context/user";
+
 
 export default function Unauthorized() {
+
+  const { error } = useContext(UserContext)
+
     return (
         <div className="error-container">
-        <h3>Not Authorized - Please </h3>
+        <h3>{error}</h3>
         <div className="links-container">
           <Link to="/signup"><h3>Signup</h3></Link>
           <h3>Or</h3>
