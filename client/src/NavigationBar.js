@@ -5,7 +5,7 @@ import LoadingPage from './LoadingPage';
 
 
 function NavigationBar() {
-    const { newUser, user, logout, loggedIn, setLoggedIn, setError, setCurrentPage } = useContext(UserContext)
+    const { newUser, logout, setLoggedIn, setError } = useContext(UserContext)
     const navigate = useNavigate()
     const location = useLocation()
     const [isLoading, setIsLoading] = useState(false);
@@ -52,6 +52,7 @@ function NavigationBar() {
         })
         .finally(() => {
           setIsLoading(false);
+          setError(null)
         });
     };
 

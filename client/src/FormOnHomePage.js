@@ -1,11 +1,11 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { UserContext } from "./context/user";
 import SelectCategories from "./SelectCategories";
 import { useNavigate } from 'react-router-dom'
 
 function FormOnHomePage({ isFormOpen }) {
  
-    const { addTweet, addNewTweet, error, setError } = useContext(UserContext)
+    const { addNewTweet, error } = useContext(UserContext)
     const [isLoading, setIsLoading] = useState(false)
     const navigate = useNavigate()
     const [formData, setFormData] = useState({

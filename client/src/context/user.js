@@ -5,14 +5,12 @@ const UserContext = React.createContext();
 function UserProvider({ children }) {
 
     const [error, setError] = useState([]);
+    const [categoriesError, setCategoriesError] = useState(null)
+    console.log(categoriesError)
     const [currentPage, setCurrentPage] = useState("");
-   
-    const [user, setUser] = useState({})
-
+    // const [user, setUser] = useState({})
     const [categories, setCategories] = useState([])
-
     const [loggedIn, setLoggedIn] = useState(false)
-
     const [newUser, setNewUser] = useState({})//🟥
 
 
@@ -25,6 +23,7 @@ function UserProvider({ children }) {
       })
       if (!response.ok) {
         const error = await response.json();
+        console.log(error.errors)
         setError(error.errors)
       }
       getCategories() 
@@ -38,15 +37,15 @@ function UserProvider({ children }) {
         setLoggedIn(false);
         return;
       }
-      const newUser = await response.json()
+      const fetchedUser = await response.json()
 
-      if (!newUser) {
+      if (!fetchedUser) {
         setError(error.error)
         console.log(error)
         setLoggedIn(false)
         return;
       }
-      setNewUser(newUser)//🟥
+      setNewUser(fetchedUser)//🟥
       setLoggedIn(true)
     }
 
@@ -59,7 +58,10 @@ function UserProvider({ children }) {
       load(); // call the async function as per the warning message
     }, [])
 
+
     const logout = () => {
+      setError(null)
+      setCategoriesError(null)
       setCategories(null)
       setLoggedIn(false)
       setNewUser(null)
@@ -93,8 +95,8 @@ function UserProvider({ children }) {
       .then(response => {
         if (!response.ok) {
           response.json().then(err => {
-            console.log(err.error)
-            setError(err.error)
+            // console.log(err.error)
+            setCategoriesError(err.error)
           })
         } else {
           response.json()
@@ -110,42 +112,58 @@ function UserProvider({ children }) {
       fetch("/tweets", {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify(newTweet)
+        body: JSON.stringify(newTweet) // We get back the newTweet object
       })
       .then((response) => {
-        if (!response.ok) {
+        if (!response.ok) { // If the response is not ok
           response.json().then((err) => { 
              console.log(Object.values(err))
-             
-            setError(Object.values(err));
+             console.log(err)
+            setError(Object.values(err)); // We set our error state and use that to display our error
             });
-        } else {
+        } else { // But if the response is ok...
           response.json().then((data) => {
 
-
+           //  We check if our newly added tweets category already exists in our newUser state
            const findIfCategoryUserState = newUser.categories.find(c => c.category === data.category.category)
 
+           // If thee category does not yet exist...
            if (!findIfCategoryUserState) {
+            // We update the newUser state by...
             setNewUser({
+              // 1. Copying the newUser state
               ...newUser,
+              // 2. adding our newTweet to the newUsers tweets
               tweets: [data, ...newUser.tweets],
+              // 3. Adding the new tweets category to our newUsers categories
               categories: [{category: data.category.category, id: data.category.id}, ...newUser.categories] 
             })
+
+            // But if the new tweets category already exists in the newUsers state
            } else {
+            // We just go ahead and add the new tweet without the category because the category already exists
             setNewUser({
               ...newUser,
               tweets: [data, ...newUser.tweets]
 
             })
+            // Then we set the error state to null
             setError(null)
           }
           
+          // Now we need to update our categories state
 
+          // 1. We go ahead and create a prevCategories callback 
           setCategories(prevCategories => {
+          // 2. map through the prevCategories   
             return prevCategories.map(category => {
+          // 3. And check if any of prevCategories category.id's match our new tweets category_id    
               if (category.id === data.category_id) {
+          // If it does match...      
                 return {
+          // 4. Find that category that matches data.category_id        
                   ...category,
+          // 5. Go to that categories tweets array, and add our new tweet data         
                   tweets: [
                     {
                       id: data.id,
@@ -155,6 +173,8 @@ function UserProvider({ children }) {
                     },
                     ...category.tweets
                   ],
+          // 6. Then go into that categories users array, ans add that new user associated with that tweet
+          // 7. Use Set() to make sure we don't have any duplicate data    
                   users: [
                     ...new Set([
                       {
@@ -166,6 +186,7 @@ function UserProvider({ children }) {
                   ]
                 };
               }
+          // 8. But if none of prevCategories id's match our data.category_id, then just return it as it was previously    
               return category;
             });
           });
@@ -174,9 +195,6 @@ function UserProvider({ children }) {
       }
     })
   }
-    
-   
-
     
     // async function addTweet(tweet) {
     //   try {
@@ -366,37 +384,37 @@ function UserProvider({ children }) {
         });
     }
 
-    function addProfilePhoto(user) {
-      fetch(`/users/${user.id}`, {
-        method: 'PATCH',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({
-          profile_photo: user.profile_photo
-        })
-      })
-      .then(res => res.json())
-      .then(updatedUser => {
-        setNewUser(prevData => {
-          if (Array.isArray(prevData)) {
-            const updatedData = prevData.map(item => {
-              if (item.id === updatedUser.id) {
-                return {
-                  ...item,
-                  profile_photo: updatedUser.profile_photo
-                };
-              }
-              return item;
-            });
+    // function addProfilePhoto(user) {
+    //   fetch(`/users/${user.id}`, {
+    //     method: 'PATCH',
+    //     headers: { 'content-type': 'application/json' },
+    //     body: JSON.stringify({
+    //       profile_photo: user.profile_photo
+    //     })
+    //   })
+    //   .then(res => res.json())
+    //   .then(updatedUser => {
+    //     setNewUser(prevData => {
+    //       if (Array.isArray(prevData)) {
+    //         const updatedData = prevData.map(item => {
+    //           if (item.id === updatedUser.id) {
+    //             return {
+    //               ...item,
+    //               profile_photo: updatedUser.profile_photo
+    //             };
+    //           }
+    //           return item;
+    //         });
   
-            return updatedData;
-          }
-          return prevData;
-        });
-      })
-      .catch(error => {
-        console.error(error);
-      });
-    }
+    //         return updatedData;
+    //       }
+    //       return prevData;
+    //     });
+    //   })
+    //   .catch(error => {
+    //     console.error(error);
+    //   });
+    // }
 
     function addCategory(newCategory) {
       fetch("/categories", {
@@ -431,8 +449,8 @@ function UserProvider({ children }) {
           setError,
           addCategory,
           categories,
-          addProfilePhoto,
-          user,
+          // addProfilePhoto,
+          // user,
           newUser,
           setNewUser,
           addNewTweet,

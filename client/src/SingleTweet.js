@@ -14,7 +14,7 @@ function SingleTweet() {
   const [isLoadingDelete, setIsLoadingDelete] = useState(false);
   const [isLoadingEdit, setIsLoadingEdit] = useState(false);
   const [isMyTweet, setIsMyTweet] = useState(true)
-  const { deleteTweet, deleteNewTweet, editTweet, editNewTweet, categories, user, newUser} = useContext(UserContext)
+  const { deleteNewTweet, editNewTweet, newUser} = useContext(UserContext)
   const { id } = useParams()
   const navigate = useNavigate()
 
@@ -36,14 +36,13 @@ function SingleTweet() {
   useEffect(() => {
     const mySingleTweet = newUser?.tweets && newUser.tweets.find(tweet => tweet.id === parseInt(id));
     const mySingleTweetsCategory = newUser?.categories && 
-    newUser.categories.find(category => category.id == mySingleTweet?.category_id)
+    newUser.categories.find(category => category.id === mySingleTweet?.category_id)
 
     setSingleTweet(mySingleTweet)
     setSingleCategory(mySingleTweetsCategory)
     setTweetBody(mySingleTweet ? mySingleTweet.body : "")
-    console.log(mySingleTweet)
-    console.log(mySingleTweetsCategory)
-    if (singleTweet == undefined || singleTweet?.user_id !== newUser?.id) {
+  
+    if (singleTweet === undefined || singleTweet?.user_id !== newUser?.id) {
       setIsMyTweet(false)
     } else {
       setIsMyTweet(true)
@@ -81,7 +80,7 @@ function SingleTweet() {
     }, 750);
   };
 
-  console.log(SingleCategory)
+ 
 
   if (!singleTweet || isMyTweet === false) {
     return <div className="button">Tweet not found. Go back</div>;

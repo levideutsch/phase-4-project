@@ -1,4 +1,3 @@
-//✅
 import React, { useState, useContext } from 'react'
 import { UserContext } from './context/user'
 import { NavLink } from 'react-router-dom'
@@ -19,13 +18,24 @@ export default function Login() {
     try {
       await login(username, password)
     } catch (error) {
-      console.log('Error(s):', error);
-      setErrors(Array.isArray(error) ? error : [ error.error ]);
+      console.log(error);
+      setErrors()
     } finally {
       setIsLoading(false);
       setErrors([])
     }
   };
+
+  console.log(errors)
+
+  // const handleLoginSubmit = (e) => {
+  //   e.preventDefault()
+  //   setIsLoading(true)
+
+  //   login(username, password)
+  //   setIsLoading(false)
+  //   setErrors([])
+  // }
 
   if (isLoading)
     return <LoadingPage />;
@@ -50,16 +60,16 @@ export default function Login() {
         />
         <br/>
         <input type='submit'/>
-        <a className="button">{error}</a>
+        <p className="button">{error}</p>
       </form>
       {/* only render a list of errors if we have them */}
      
     
-      {/* {errors.length > 0
+       {/* {errors.length > 0
         ? <ul className='button'>
             {errors.map(error => <li>{error}</li>)}
         </ul>
-        : null} */}
+        : null}  */}
         <br/>
       <NavLink to='/signup'>
           <p className='button' onClick={() => setError([])}> Need Account?</p>

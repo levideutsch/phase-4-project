@@ -4,7 +4,6 @@ import { UserContext } from "./context/user";
 import Signup from "./Signup";
 import Login from "./Login";
 import NavigationBar from "./NavigationBar";
-// import MyTweets from "./MyTweets";
 import "./index.css"
 import SingleTweet from "./SingleTweet";
 import Categories from "./Categories";
@@ -14,7 +13,7 @@ import NotFound from "./NotFound";
 import UsersProfilePage from "./UsersProfilePage";
 import NewHomePage from "./NewHomePage";
 import UsersPage from "./UsersPage";
-import Unauthorized from "./Unauthorized";
+
 
 
 function App() {

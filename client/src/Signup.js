@@ -6,7 +6,6 @@ function Signup() {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const [passwordConfirm, setPasswordConfirm] = useState("")
-    const [errorsList, setErrorsList] = useState([])
     const { signup, error, setError } = useContext(UserContext)
     const navigate = useNavigate()
 
@@ -14,7 +13,7 @@ function Signup() {
     const handleSubmit = async (e) => {
         e.preventDefault()
         return signup(username, password, passwordConfirm)
-        // .then(() =>  navigate('/'))
+        .then(() =>  navigate('/'))
     }
 
     return (
