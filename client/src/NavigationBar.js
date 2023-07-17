@@ -76,11 +76,14 @@ function NavigationBar() {
             <li><strong onClick={backHome}>!Twitter</strong></li>
             <Link to="/my-profile">
             <li><a href="/" className="secondary">Hello {newUser?.username}</a></li>
-            <img className='profile-photo' src={newUser?.profile_photo} alt='Your profile'></img>
+            {newUser.profile_photo ?
+             <img className='profile-photo' src={newUser?.profile_photo} alt='Your profile'></img> 
+            :
+            null}
+           
             </Link>
           </ul>
           <ul>
-              {/* <li><NavLink to="/">Home</NavLink></li> */}
               <li><NavLink to="/">Home</NavLink></li>
               <br/>
               <li><NavLink to="/users-page">{newUser?.username}'s Stuff</NavLink></li>

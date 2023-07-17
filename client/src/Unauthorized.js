@@ -5,8 +5,9 @@ import { UserContext } from "./context/user";
 
 export default function Unauthorized() {
 
-  const { error } = useContext(UserContext)
+  const { categoriesError } = useContext(UserContext)
 
+   console.log(categoriesError)
     return (
         <div className="error-container">
         <h3>{error}</h3>

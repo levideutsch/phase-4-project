@@ -39,7 +39,8 @@ function UsersProfilePage() {
 
   return (
     <div>
-      <div className="button">{newUser.username}'s Profile page</div> 
+      {/* <div className="button">{newUser.username}'s Profile page</div>  */}
+      <p className="button">{newUser.profile_photo ? "Update Profile Photo" : "Add Profile Photo"}</p>
       <form className="button" onSubmit={handleSubmit}>
         <input
           placeholder="Enter Image Url"

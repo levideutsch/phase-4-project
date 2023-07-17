@@ -13,24 +13,37 @@ import NotFound from "./NotFound";
 import UsersProfilePage from "./UsersProfilePage";
 import NewHomePage from "./NewHomePage";
 import UsersPage from "./UsersPage";
+import Unauthorized from "./Unauthorized";
 
 
+// Not authorized
 
 function App() {
 
-  const { loggedIn } = useContext(UserContext)
+  const { loggedIn, categoriesError } = useContext(UserContext)
+  // console.log(categoriesError)
 
   if (!loggedIn) {
     return (
       <Router>
         <Routes>
           <Route exact path="/signup" element={<Signup/>}/>
-          <Route path="/" element={<Login />} />
+          <Route path="/*" element={<Login />} />
           <Route path="/login" element={<Login />} />
         </Routes>
       </Router>
     )
   }
+
+  // if (!loggedIn && categoriesError) {
+  //   return (
+  //   <Router>
+  //   <Routes>
+  //     <Route exact path="/*" element={<Unauthorized/>}/>
+  //   </Routes>
+  // </Router>
+  //   )
+  // }
 
   return (
     <Router>

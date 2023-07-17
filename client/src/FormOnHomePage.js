@@ -51,12 +51,11 @@ function FormOnHomePage({ isFormOpen }) {
     return (
         <div className="new-tweet-form">
 
-        <form onSubmit={handleSubmit} >
+        <form onSubmit={handleSubmit}>
 
             <label>!Tweet</label>
 
-            <textarea 
-            // <input
+            <textarea
             placeholder="What's on your mind?"
             type="text"
             id="tweet"
@@ -68,7 +67,6 @@ function FormOnHomePage({ isFormOpen }) {
             formData={formData.category} 
             setFormData={setFormData} 
             handleInputChange={handleInputChange}
-            // />
             />
 
             <button

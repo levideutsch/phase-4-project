@@ -6,7 +6,6 @@ function UserProvider({ children }) {
 
     const [error, setError] = useState([]);
     const [categoriesError, setCategoriesError] = useState(null)
-    console.log(categoriesError)
     const [currentPage, setCurrentPage] = useState("");
     // const [user, setUser] = useState({})
     const [categories, setCategories] = useState([])
@@ -41,7 +40,7 @@ function UserProvider({ children }) {
 
       if (!fetchedUser) {
         setError(error.error)
-        console.log(error)
+        // console.log(error)
         setLoggedIn(false)
         return;
       }
@@ -88,8 +87,8 @@ function UserProvider({ children }) {
 
     
     // async function getCategories() { setCategories(await fetch("/categories").then(res => res.json())) }
-    
-
+   
+      
     function getCategories() {
       fetch("/categories")
       .then(response => {
@@ -103,7 +102,6 @@ function UserProvider({ children }) {
           .then(data => setCategories(data))
         }
       })
-      
     }
 
     //////////////////////////////////////////////////
@@ -456,7 +454,8 @@ function UserProvider({ children }) {
           addNewTweet,
           deleteNewTweet,
           editNewTweet,
-          setCurrentPage
+          setCurrentPage,
+          categoriesError
           }}
         >
           { children }

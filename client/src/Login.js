@@ -26,7 +26,6 @@ export default function Login() {
     }
   };
 
-  console.log(errors)
 
   // const handleLoginSubmit = (e) => {
   //   e.preventDefault()
